@@ -27,9 +27,9 @@ Then open a Comark-flavored Markdown file on GitHub, for example [`docs/content/
 ## Enjoy
 
 ```comark
-# Regular Markdown
+# Enjoy highlighted syntax
 
-With a custom component:
+After installing the extension, refresh this page and you will see that the next lines are highlighted.
 
 ::alert{type="warning"}
 This is **Markdown** inside your own component.
