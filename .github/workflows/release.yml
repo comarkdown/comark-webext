@@ -42,10 +42,8 @@ jobs:
       - name: Test
         run: pnpm vitest run
 
-      - name: Pack zip and xpi
-        run: |
-          pnpm pack:zip
-          pnpm pack:xpi
+      - name: Pack zip
+        run: pnpm pack:zip
 
       - name: Pack crx
         if: env.CRX_PRIVATE_KEY != ''
@@ -53,6 +51,14 @@ jobs:
           printf '%s' "$CRX_PRIVATE_KEY" > key.pem
           pnpm pack:crx
           rm -f key.pem
+
+      # the xpi must come from the Firefox-flavored build
+      # (gecko id, background scripts instead of a service worker)
+      - name: Build (Firefox)
+        run: EXTENSION=firefox pnpm build
+
+      - name: Pack xpi
+        run: pnpm pack:xpi
 
       - name: Resolve tag
         id: tag

@@ -57,5 +57,15 @@ export async function getManifest() {
     },
   }
 
+  // Firefox MV3 requires an explicit add-on ID; it also keys AMO updates
+  if (isFirefox) {
+    manifest.browser_specific_settings = {
+      gecko: {
+        id: 'comark-webext@comark.dev',
+        strict_min_version: '112.0',
+      },
+    }
+  }
+
   return manifest
 }
