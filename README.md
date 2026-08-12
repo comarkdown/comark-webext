@@ -98,6 +98,12 @@ Then pack the files under `extension/`: `pnpm pack:zip`, `pnpm pack:crx` or `pnp
 - `src/manifest.ts` - the extension manifest (generated to `extension/manifest.json`)
 - `src/tests/` - vitest specs with real GitHub HTML fixtures
 
+## Releases
+
+Every push to `main` runs the checks, builds the extension and publishes a [GitHub release](https://github.com/atinux/comark-webext/releases) with `extension.zip` and `extension.xpi` (see `.github/workflows/release.yml`). The tag comes from the `package.json` version; pushes without a version bump get a `-build.N` suffix.
+
+To include the `.crx` pack with a stable extension ID, add the contents of the local `key.pem` as the `CRX_PRIVATE_KEY` repository secret.
+
 ## Notes
 
 - `comark` and `@comark/html` are currently installed from [pkg.pr.new](https://pkg.pr.new) builds of [comarkdown/comark#352](https://github.com/comarkdown/comark/pull/352). Switch to the npm releases once the PR ships.

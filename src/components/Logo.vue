@@ -1,5 +1,9 @@
+<script setup lang="ts">
+const iconUrl = browser.runtime.getURL('assets/icon-512.png')
+</script>
+
 <template>
-  <a class="icon-btn mx-2 text-2xl" rel="noreferrer" href="https://comark.dev" target="_blank" title="Comark">
-    <pixelarticons-power />
+  <a href="https://comark.dev" rel="noreferrer" target="_blank" title="Comark">
+    <img :src="iconUrl" alt="Comark logo" class="mx-auto h-16 w-16">
   </a>
 </template>
