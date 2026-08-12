@@ -43,7 +43,10 @@ jobs:
         run: pnpm vitest run
 
       - name: Pack zip
-        run: pnpm pack:zip
+        run: |
+          pnpm pack:zip
+          mkdir -p artifacts
+          mv extension.zip artifacts/
 
       - name: Pack crx
         if: env.CRX_PRIVATE_KEY != ''
@@ -51,14 +54,19 @@ jobs:
           printf '%s' "$CRX_PRIVATE_KEY" > key.pem
           pnpm pack:crx
           rm -f key.pem
+          mv extension.crx artifacts/
 
       # the xpi must come from the Firefox-flavored build
-      # (gecko id, background scripts instead of a service worker)
+      # (gecko id, background scripts instead of a service worker).
+      # NOTE: `pnpm build` runs `clear`, which deletes ./extension.* packs —
+      # that is why the chrome packs are stashed in artifacts/ first.
       - name: Build (Firefox)
         run: EXTENSION=firefox pnpm build
 
       - name: Pack xpi
-        run: pnpm pack:xpi
+        run: |
+          pnpm pack:xpi
+          mv extension.xpi artifacts/
 
       - name: Resolve tag
         id: tag
@@ -74,8 +82,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          ASSETS="extension.zip extension.xpi"
-          [ -f extension.crx ] && ASSETS="$ASSETS extension.crx"
-          gh release create "${{ steps.tag.outputs.value }}" $ASSETS \
+          gh release create "${{ steps.tag.outputs.value }}" artifacts/* \
             --title "${{ steps.tag.outputs.value }} — Comark for GitHub" \
             --generate-notes
