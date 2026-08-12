@@ -1,10 +1,10 @@
 {
-  "name": "vitesse-webext",
-  "displayName": "Vitesse WebExt",
+  "name": "comark-webext",
+  "displayName": "Comark for GitHub",
   "version": "0.0.1",
   "private": true,
   "packageManager": "pnpm@9.7.1",
-  "description": "[description]",
+  "description": "Renders Comark (Markdown components & attributes) syntax nicely on GitHub",
   "scripts": {
     "dev": "npm run clear && cross-env NODE_ENV=development run-p dev:*",
     "dev-firefox": "npm run clear && cross-env NODE_ENV=development EXTENSION=firefox run-p dev:*",
@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.27.0",
+    "@comark/html": "https://pkg.pr.new/@comark/html@3fb5da8",
     "@ffflorian/jszip-cli": "^3.8.5",
     "@iconify/json": "^2.2.239",
     "@playwright/test": "^1.46.1",
@@ -45,6 +46,7 @@
     "@vue/test-utils": "^2.4.6",
     "@vueuse/core": "^11.0.1",
     "chokidar": "^3.6.0",
+    "comark": "https://pkg.pr.new/comark@3fb5da8",
     "cross-env": "^7.0.3",
     "crx": "^5.0.1",
     "eslint": "^9.9.0",
@@ -54,6 +56,7 @@
     "kolorist": "^1.8.0",
     "lint-staged": "^15.2.9",
     "npm-run-all": "^4.1.5",
+    "rangi": "^2.2.0",
     "rimraf": "^6.0.1",
     "simple-git-hooks": "^2.11.1",
     "typescript": "^5.5.4",
@@ -68,6 +71,11 @@
     "web-ext": "^8.2.0",
     "webext-bridge": "^6.0.1",
     "webextension-polyfill": "^0.12.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "comark": "https://pkg.pr.new/comark@3fb5da8"
+    }
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"

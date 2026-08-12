@@ -1,0 +1,169 @@
+/* Comark for GitHub — injected styles.
+   rangi runs in `classes` mode: colors map to GitHub's prettylights
+   variables, so light/dark themes follow the page automatically. */
+
+.comark-block {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.comark-block::after {
+  content: attr(data-comark-component);
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  font-size: 11px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+  color: var(--fgColor-muted, #59636e);
+  opacity: 0.7;
+  pointer-events: none;
+  user-select: none;
+}
+
+.comark-block .shj {
+  margin: 0;
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: var(--bgColor-muted, #f6f8fa);
+  border-radius: 6px;
+}
+
+.comark-block .shj-code {
+  display: block;
+  white-space: pre;
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  color: var(--fgColor-default, #1f2328);
+}
+
+code.shj[data-comark='inline'] {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  white-space: break-spaces;
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  color: var(--fgColor-default, #1f2328);
+  background-color: var(--bgColor-neutral-muted, #eff2f5);
+  border-radius: 6px;
+}
+
+/* token colors — GitHub prettylights palette */
+[data-comark] .shj-oper {
+  color: var(--color-prettylights-syntax-keyword, #cf222e);
+}
+
+[data-comark] .shj-class {
+  color: var(--color-prettylights-syntax-entity, #6639ba);
+}
+
+[data-comark] .shj-var {
+  color: var(--color-prettylights-syntax-constant, #0550ae);
+}
+
+[data-comark] .shj-str {
+  color: var(--color-prettylights-syntax-string, #0a3069);
+}
+
+[data-comark] .shj-kwd {
+  color: var(--color-prettylights-syntax-keyword, #cf222e);
+}
+
+[data-comark] .shj-section {
+  color: var(--color-prettylights-syntax-markup-heading, #0550ae);
+  font-weight: 600;
+}
+
+[data-comark] .shj-cmnt {
+  color: var(--color-prettylights-syntax-comment, #59636e);
+}
+
+[data-comark] .shj-bool {
+  color: var(--color-prettylights-syntax-constant, #0550ae);
+}
+
+[data-comark] .shj-num {
+  color: var(--color-prettylights-syntax-constant, #0550ae);
+}
+
+[data-comark] .shj-esc {
+  color: var(--color-prettylights-syntax-string-regexp, #116329);
+}
+
+[data-comark] .shj-func {
+  color: var(--color-prettylights-syntax-entity, #6639ba);
+}
+
+[data-comark] .shj-insert {
+  color: var(--color-prettylights-syntax-markup-inserted-text, #116329);
+}
+
+[data-comark] .shj-deleted {
+  color: var(--color-prettylights-syntax-markup-deleted-text, #82071e);
+}
+
+/* rangi-plugin fences (comark re-render): tokens carry inline light colors
+   plus a --shiki-dark var. Switch to it when GitHub is in dark mode. */
+[data-color-mode='dark'] .markdown-body pre.shj span[style] {
+  color: var(--shiki-dark, inherit) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-color-mode='auto'] .markdown-body pre.shj span[style] {
+    color: var(--shiki-dark, inherit) !important;
+  }
+}
+
+/* comark alert blockquotes (> [!NOTE] etc.), GitHub-alert look */
+.markdown-body blockquote[as] {
+  color: inherit;
+  border-left-width: 0.25em;
+  border-left-style: solid;
+}
+
+.markdown-body blockquote[as]::before {
+  display: block;
+  font-weight: 600;
+  text-transform: capitalize;
+  content: attr(as);
+}
+
+.markdown-body blockquote[as='note'] {
+  border-left-color: var(--borderColor-accent-emphasis, #0969da);
+}
+
+.markdown-body blockquote[as='note']::before {
+  color: var(--fgColor-accent, #0969da);
+}
+
+.markdown-body blockquote[as='tip'] {
+  border-left-color: var(--borderColor-success-emphasis, #1a7f37);
+}
+
+.markdown-body blockquote[as='tip']::before {
+  color: var(--fgColor-success, #1a7f37);
+}
+
+.markdown-body blockquote[as='important'] {
+  border-left-color: var(--borderColor-done-emphasis, #8250df);
+}
+
+.markdown-body blockquote[as='important']::before {
+  color: var(--fgColor-done, #8250df);
+}
+
+.markdown-body blockquote[as='warning'] {
+  border-left-color: var(--borderColor-attention-emphasis, #9a6700);
+}
+
+.markdown-body blockquote[as='warning']::before {
+  color: var(--fgColor-attention, #9a6700);
+}
+
+.markdown-body blockquote[as='caution'] {
+  border-left-color: var(--borderColor-danger-emphasis, #cf222e);
+}
+
+.markdown-body blockquote[as='caution']::before {
+  color: var(--fgColor-danger, #cf222e);
+}

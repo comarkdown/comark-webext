@@ -1,138 +1,107 @@
-# WebExtension Vite Starter
+# Comark for GitHub
 
-A [Vite](https://vitejs.dev/) powered WebExtension ([Chrome](https://developer.chrome.com/docs/extensions/reference/), [FireFox](https://addons.mozilla.org/en-US/developers/), etc.) starter template.
+A browser extension (Chrome, Firefox) that fixes GitHub's rendering of Markdown files written with [Comark](https://comark.dev) syntax — components, attributes, spans and bindings.
 
-<p align="center">
-<sub>Popup</sub><br/>
-<img width="655" src="https://user-images.githubusercontent.com/11247099/126741643-813b3773-17ff-4281-9737-f319e00feddc.png"><br/>
-<sub>Options Page</sub><br/>
-<img width="655" src="https://user-images.githubusercontent.com/11247099/126741653-43125b62-6578-4452-83a7-bee19be2eaa2.png"><br/>
-<sub>Inject Vue App into the Content Script</sub><br/>
-<img src="https://user-images.githubusercontent.com/11247099/130695439-52418cf0-e186-4085-8e19-23fe808a274e.png">
-</p>
+GitHub's Markdown renderer does not understand the Comark extensions: block components leak as plain paragraphs or broken headings, attribute groups show up as stray braces, and `mdc` code fences stay unhighlighted. With this extension installed, those files become readable again.
 
-## Features
+## Install
 
-- ⚡️ **Instant HMR** - use **Vite** on dev (no more refresh!)
-- 🥝 Vue 3 - Composition API, [`<script setup>` syntax](https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md) and more!
-- 💬 Effortless communications - powered by [`webext-bridge`](https://github.com/serversideup/webext-bridge) and [VueUse](https://github.com/antfu/vueuse) storage
-- 🌈 [UnoCSS](https://github.com/unocss/unocss) - The instant on-demand Atomic CSS engine.
-- 🦾 [TypeScript](https://www.typescriptlang.org/) - type safe
-- 📦 [Components auto importing](./src/components)
-- 🌟 [Icons](./src/components) - Access to icons from any iconset directly
-- 🖥 Content Script - Use Vue even in content script
-- 🌍 WebExtension - isomorphic extension for Chrome, Firefox, and others
-- 📃 Dynamic `manifest.json` with full type support
+Not on the extension stores yet. Grab the latest pack from the [releases page](https://github.com/atinux/comark-webext/releases/latest):
 
-## Pre-packed
+### Chrome / Edge / Chromium
 
-### WebExtension Libraries
+1. Download [`extension.zip`](https://github.com/atinux/comark-webext/releases/latest/download/extension.zip) and unzip it.
+2. Open `chrome://extensions` and turn on **Developer mode** (top right).
+3. Click **Load unpacked** and select the unzipped folder.
 
-- [`webextension-polyfill`](https://github.com/mozilla/webextension-polyfill) - WebExtension browser API Polyfill with types
-- [`webext-bridge`](https://github.com/serversideup/webext-bridge) - effortlessly communication between contexts
+### Firefox
 
-### Vite Plugins
+1. Download [`extension.xpi`](https://github.com/atinux/comark-webext/releases/latest/download/extension.xpi).
+2. Open `about:debugging#/runtime/this-firefox`.
+3. Click **Load Temporary Add-on** and select the `.xpi` file.
 
-- [`unplugin-auto-import`](https://github.com/unplugin/unplugin-auto-import) - Directly use `browser` and Vue Composition API without importing
-- [`unplugin-vue-components`](https://github.com/unplugin/unplugin-vue-components) - components auto import
-- [`unplugin-icons`](https://github.com/unplugin/unplugin-icons) - icons as components
-  - [Iconify](https://iconify.design) - use icons from any icon sets [🔍Icônes](https://icones.netlify.app/)
+> Firefox removes temporary add-ons on restart. A signed listing on addons.mozilla.org will remove this limitation.
 
-### Vue Plugins
+Then open a Comark-flavored Markdown file on GitHub, for example [`docs/content/index.md`](https://github.com/comarkdown/comark/blob/main/docs/content/index.md) from the comark repo.
 
-- [VueUse](https://github.com/antfu/vueuse) - collection of useful composition APIs
+## What it does
 
-### UI Frameworks
+On `github.com`, for READMEs and `.md` blob previews:
 
-- [UnoCSS](https://github.com/unocss/unocss) - the instant on-demand Atomic CSS engine
+1. **Detects Comark syntax.** The extension fetches the raw Markdown source (from `raw.githubusercontent.com`) and scans it. Plain Markdown files are left untouched.
+2. **Re-renders the whole document with Comark.** The raw source is parsed by the real Comark parser and rendered to HTML with [`@comark/html`](https://www.npmjs.com/package/@comark/html), replacing GitHub's lossy rendering.
+3. **Shows Comark syntax as highlighted code:**
+   - Block components (`::card` … `::`) become syntax-highlighted code blocks of their original source, YAML props included, with a component-name badge.
+   - Inline components (`:badge[New]{color="blue"}`), attribute groups (`**bold**{.accent}`), spans (`[text]{.mark}`) and bindings (`{{ user.name }}`) become highlighted inline code.
+4. **Highlights code fences** with [rangi](https://github.com/pi0/rangi) using GitHub's own color palette — including ` ```mdc ` / ` ```comark ` fences, which GitHub leaves plain. On non-Comark pages, `mdc` fences are highlighted in place without touching anything else.
 
-### Coding Style
+Everything follows GitHub's light, dark and auto color modes.
 
-- Use Composition API with [`<script setup>` SFC syntax](https://github.com/vuejs/rfcs/pull/227)
-- [ESLint](https://eslint.org/) with [@antfu/eslint-config](https://github.com/antfu/eslint-config), single quotes, no semi
+### Safety
 
-### Dev tools
+- The rendered HTML goes through Comark's `security` plugin: `<script>`/`<iframe>`-style tags are dropped, event-handler attributes are stripped, and `javascript:` URLs are not rendered.
+- If rendering fails for any reason, GitHub's original rendering is kept.
+- A popup toggle enables/disables the extension (toggling reloads open GitHub tabs).
 
-- [TypeScript](https://www.typescriptlang.org/)
-- [pnpm](https://pnpm.js.org/) - fast, disk space efficient package manager
-- [esno](https://github.com/antfu/esno) - TypeScript / ESNext node runtime powered by esbuild
-- [npm-run-all](https://github.com/mysticatea/npm-run-all) - Run multiple npm-scripts in parallel or sequential
-- [web-ext](https://github.com/mozilla/web-ext) - Streamlined experience for developing web extensions
+### Known trade-offs
 
-## Use the Template
+- On re-rendered pages, GitHub extras are lost: octicon hover anchors on headings, the camo image proxy, and copy buttons on code fences. Relative links and images are rewritten so they keep working.
+- Bare domains (`example.com` without a protocol) are not auto-linked, since linkify would mangle `{{ dotted.path }}` bindings.
 
-### GitHub Template
-
-[Create a repo from this template on GitHub](https://github.com/antfu/vitesse-webext/generate).
-
-### Clone to local
-
-If you prefer to do it manually with the cleaner git history
-
-> If you don't have pnpm installed, run: npm install -g pnpm
+## Development
 
 ```bash
-npx degit antfu/vitesse-webext my-webext
-cd my-webext
 pnpm i
-```
-
-## Usage
-
-### Folders
-
-- `src` - main source.
-  - `contentScript` - scripts and components to be injected as `content_script`
-  - `background` - scripts for background.
-  - `components` - auto-imported Vue components that are shared in popup and options page.
-  - `styles` - styles shared in popup and options page
-  - `assets` - assets used in Vue components
-  - `manifest.ts` - manifest for the extension.
-- `extension` - extension package root.
-  - `assets` - static assets (mainly for `manifest.json`).
-  - `dist` - built files, also serve stub entry for Vite on development.
-- `scripts` - development and bundling helper scripts.
-
-### Development
-
-```bash
 pnpm dev
 ```
 
-Then **load extension in browser with the `extension/` folder**.
+Then **load the `extension/` folder in your browser** (Chrome: `chrome://extensions` → Developer mode → Load unpacked).
 
-For Firefox developers, you can run the following command instead:
+For Firefox:
 
 ```bash
 pnpm dev-firefox
+pnpm start:firefox
 ```
 
-`web-ext` auto reload the extension when `extension/` files changed.
+Good pages to test on:
 
-> While Vite handles HMR automatically in the most of the case, [Extensions Reloader](https://chromewebstore.google.com/detail/extensions-reloader/fimgfedafeadlieiabdeeaodndnlbhid) is still recommended for cleaner hard reloading.
+- https://github.com/comarkdown/comark/blob/main/docs/content/index.md
+- https://github.com/comarkdown/comark/blob/main/docs/content/2.syntax/2.components.md
 
-## Using Gitpod
+### Tests
 
-If you have a web browser, you can get a fully pre-configured development environment with one click:
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/antfu/vitesse-webext)
+```bash
+pnpm test        # vitest — scanner, renderer and DOM transform (real GitHub fixtures)
+pnpm typecheck
+pnpm lint
+```
 
 ### Build
-
-To build the extension, run
 
 ```bash
 pnpm build
 ```
 
-And then pack files under `extension`, you can upload `extension.crx` or `extension.xpi` to appropriate extension store.
+Then pack the files under `extension/`: `pnpm pack:zip`, `pnpm pack:crx` or `pnpm pack:xpi`.
+
+## Project structure
+
+- `src/contentScripts/comark/` - the core logic
+  - `github.ts` - page detection, raw source fetching, soft-navigation handling
+  - `scanner.ts` - regex scan of the raw source (Comark syntax gate + inline fragments)
+  - `renderer.ts` - full Comark HTML rendering with component/span handlers
+  - `transform.ts` - DOM replacement, inline code wrapping, fence highlighting
+  - `highlight.ts` - rangi wrappers with the Comark grammar
+  - `style.css` - injected styles, mapped to GitHub's CSS variables
+- `src/popup/` - the enable/disable popup
+- `src/manifest.ts` - the extension manifest (generated to `extension/manifest.json`)
+- `src/tests/` - vitest specs with real GitHub HTML fixtures
+
+## Notes
+
+- `comark` and `@comark/html` are currently installed from [pkg.pr.new](https://pkg.pr.new) builds of [comarkdown/comark#352](https://github.com/comarkdown/comark/pull/352). Switch to the npm releases once the PR ships.
 
 ## Credits
 
-[![Volta](https://user-images.githubusercontent.com/904724/195351818-9e826ea9-12a0-4b06-8274-352743cd2047.png)](https://volta.net)
-
-This template is originally made for the [volta.net](https://volta.net) browser extension.
-
-## Variations
-
-This is a variant of [Vitesse](https://github.com/antfu/vitesse), check out the [full variations list](https://github.com/antfu/vitesse#variations).
+Built on [vitesse-webext](https://github.com/antfu/vitesse-webext) by [Anthony Fu](https://github.com/antfu) — Vite-powered WebExtension starter with Vue 3, HMR and dynamic manifest.

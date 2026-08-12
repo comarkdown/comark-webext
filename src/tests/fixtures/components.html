@@ -1,0 +1,643 @@
+<article class="markdown-body entry-content container-lg" itemprop="text"><markdown-accessiblity-table><table>
+  <tbody>
+  <tr>
+    <th>title</th>
+    <td>Components</td>
+  </tr>
+  <tr>
+    <th>description</th>
+    <td>Embed custom components directly in your Markdown with block and inline syntax, props, slots, and nested children.</td>
+  </tr>
+  <tr>
+    <th>links</th>
+    <td><table>
+  <tbody>
+  <tr>
+  <td><div dir="auto"><table>
+  <thead>
+  <tr>
+  <th>label</th>
+  <th>icon</th>
+  <th>to</th>
+  <th>color</th>
+  <th>variant</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <td><div dir="auto">Attributes</div></td>
+  <td><div dir="auto">i-lucide-tag</div></td>
+  <td><div dir="auto">/syntax/attributes</div></td>
+  <td><div dir="auto">neutral</div></td>
+  <td><div dir="auto">soft</div></td>
+  </tr>
+  </tbody>
+</table>
+</div></td>
+  <td><div dir="auto"><table>
+  <thead>
+  <tr>
+  <th>label</th>
+  <th>icon</th>
+  <th>to</th>
+  <th>color</th>
+  <th>variant</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <td><div dir="auto">Components Plugin</div></td>
+  <td><div dir="auto">i-lucide-plug</div></td>
+  <td><div dir="auto">/plugins/defaults/components</div></td>
+  <td><div dir="auto">neutral</div></td>
+  <td><div dir="auto">soft</div></td>
+  </tr>
+  </tbody>
+</table>
+</div></td>
+  </tr>
+  </tbody>
+</table>
+</td>
+  </tr>
+  <tr>
+    <th>navigation</th>
+    <td><table>
+  <thead>
+  <tr>
+  <th>title</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <td><div dir="auto">Components</div></td>
+  </tr>
+  </tbody>
+</table>
+</td>
+  </tr>
+  </tbody>
+</table></markdown-accessiblity-table>
+
+<p dir="auto">Comark extends standard Markdown with component syntax, letting you embed custom UI directly in your content while keeping it readable. Parsing is provided by the built-in <a href="/comarkdown/comark/blob/main/plugins/defaults/components"><code>components</code> plugin</a> (enabled by default).</p>
+<p dir="auto">::callout
+Comark also supports JSON-render syntax in code blocks — see the <a href="/comarkdown/comark/blob/main/plugins/built-in/json-render">json-render plugin</a>.
+::</p>
+<div class="markdown-heading" dir="auto"><h2 tabindex="-1" class="heading-element" dir="auto">Block</h2><a id="user-content-block" class="anchor" aria-label="Permalink: Block" href="#block"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p dir="auto">Block components use the <code>::component-name</code> syntax and occupy their own line:</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::component-name{prop1=&quot;value1&quot; prop2=&quot;value2&quot;}
+Content inside the component
+
+Can have **markdown** and other elements
+::"><pre lang="mdc" class="notranslate"><code>::component-name{prop1="value1" prop2="value2"}
+Content inside the component
+
+Can have **markdown** and other elements
+::
+</code></pre></div>
+<p dir="auto">Here are some examples of block components:</p>
+<p dir="auto">::code-group</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::alert{type=&quot;info&quot;}
+This is an important message!
+::"><pre lang="mdc" class="notranslate"><code>::alert{type="info"}
+This is an important message!
+::
+</code></pre></div>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::card{title=&quot;My Card&quot;}
+Card content with **markdown** support
+::"><pre lang="mdc" class="notranslate"><code>::card{title="My Card"}
+Card content with **markdown** support
+::
+</code></pre></div>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::divider
+::"><pre lang="mdc" class="notranslate"><code>::divider
+::
+</code></pre></div>
+<p dir="auto">::</p>
+<div class="markdown-heading" dir="auto"><h2 tabindex="-1" class="heading-element" dir="auto">Inline</h2><a id="user-content-inline" class="anchor" aria-label="Permalink: Inline" href="#inline"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p dir="auto">Inline components use the <code>:component-name</code> syntax and can be placed within text:</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="Check out this :icon-star component in the middle of text.
+
+Click the :button[Submit]{type=&quot;primary&quot;} to continue.
+
+The status is :badge[Active]{color=&quot;green&quot;} right now."><pre lang="mdc" class="notranslate"><code>Check out this :icon-star component in the middle of text.
+
+Click the :button[Submit]{type="primary"} to continue.
+
+The status is :badge[Active]{color="green"} right now.
+</code></pre></div>
+<markdown-accessiblity-table><table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:icon-check</code></td>
+<td>Standalone inline component</td>
+</tr>
+<tr>
+<td><code>:badge[New]</code></td>
+<td>Inline component with content</td>
+</tr>
+<tr>
+<td><code>:badge[New]{color="blue"}</code></td>
+<td>Inline component with content and properties</td>
+</tr>
+<tr>
+<td><code>:tooltip{text="Hover text"}</code></td>
+<td>Inline component with properties only</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<div class="markdown-heading" dir="auto"><h2 tabindex="-1" class="heading-element" dir="auto">Properties</h2><a id="user-content-properties" class="anchor" aria-label="Permalink: Properties" href="#properties"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p dir="auto">Components support two property syntaxes: inline attributes and YAML frontmatter.</p>
+<div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto">Inline Attributes</h3><a id="user-content-inline-attributes" class="anchor" aria-label="Permalink: Inline Attributes" href="#inline-attributes"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p dir="auto">Use the <code>{...}</code> syntax for simple properties:</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::component{prop=&quot;value&quot;}
+&lt;!-- Standard key-value pair --&gt;
+::
+
+::component{bool}
+&lt;!-- Boolean property (becomes :bool=&quot;true&quot; in AST) --&gt;
+::
+
+::component{#custom-id}
+&lt;!-- ID attribute --&gt;
+::
+
+::component{.class-name}
+&lt;!-- CSS class --&gt;
+::
+
+::component{.class-one .class-two}
+&lt;!-- Multiple CSS classes --&gt;
+::
+
+::component{obj='{&quot;key&quot;: &quot;value&quot;}'}
+&lt;!-- Object/JSON value --&gt;
+::
+
+::component{multiple=&quot;props&quot; bool #id .class}
+&lt;!-- Multiple properties combined --&gt;
+::"><pre lang="mdc" class="notranslate"><code>::component{prop="value"}
+&lt;!-- Standard key-value pair --&gt;
+::
+
+::component{bool}
+&lt;!-- Boolean property (becomes :bool="true" in AST) --&gt;
+::
+
+::component{#custom-id}
+&lt;!-- ID attribute --&gt;
+::
+
+::component{.class-name}
+&lt;!-- CSS class --&gt;
+::
+
+::component{.class-one .class-two}
+&lt;!-- Multiple CSS classes --&gt;
+::
+
+::component{obj='{"key": "value"}'}
+&lt;!-- Object/JSON value --&gt;
+::
+
+::component{multiple="props" bool #id .class}
+&lt;!-- Multiple properties combined --&gt;
+::
+</code></pre></div>
+<div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto">Block Props</h3><a id="user-content-block-props" class="anchor" aria-label="Permalink: Block Props" href="#block-props"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p dir="auto">For components with many properties, use YAML block syntax inside the component. Two styles are supported:</p>
+<p dir="auto">::code-group</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::component
+```yaml [props]
+title: My Component
+type: info
+count: 42
+enabled: true
+items:
+  - First item
+  - Second item
+config:
+  theme: dark
+  mode: auto
+```
+Component content goes here
+
+With full **markdown** support
+::"><pre lang="mdc" class="notranslate"><code>::component
+```yaml [props]
+title: My Component
+type: info
+count: 42
+enabled: true
+items:
+  - First item
+  - Second item
+config:
+  theme: dark
+  mode: auto
+```
+Component content goes here
+
+With full **markdown** support
+::
+</code></pre></div>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::component
+---
+title: My Component
+type: info
+count: 42
+enabled: true
+items:
+  - First item
+  - Second item
+config:
+  theme: dark
+  mode: auto
+---
+Component content goes here
+
+With full **markdown** support
+::"><pre lang="mdc" class="notranslate"><code>::component
+---
+title: My Component
+type: info
+count: 42
+enabled: true
+items:
+  - First item
+  - Second item
+config:
+  theme: dark
+  mode: auto
+---
+Component content goes here
+
+With full **markdown** support
+::
+</code></pre></div>
+<p dir="auto">::</p>
+<p dir="auto">::callout{color="info" icon="i-lucide-info"}
+Objects remain objects, arrays remain arrays, and numbers/booleans are parsed as their respective types rather than strings. Your components receive fully typed props.
+::</p>
+<div class="markdown-heading" dir="auto"><h4 tabindex="-1" class="heading-element" dir="auto">Key Rules</h4><a id="user-content-key-rules" class="anchor" aria-label="Permalink: Key Rules" href="#key-rules"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul dir="auto">
+<li>Must be at the very beginning of the component content</li>
+<li>Enclosed by <code>---</code> delimiters (frontmatter style) or <code>```yaml [props]</code> fences (codeblock style)</li>
+<li>Merged with inline attributes (inline attributes take precedence)</li>
+<li>Full support for complex data structures</li>
+</ul>
+<p dir="auto">::tip
+The default style can be configured with the <a href="/comarkdown/comark/blob/main/api/render#options"><code>blockAttributesStyle</code></a> option.
+::</p>
+<div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto">Combine Both Syntaxes</h3><a id="user-content-combine-both-syntaxes" class="anchor" aria-label="Permalink: Combine Both Syntaxes" href="#combine-both-syntaxes"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p dir="auto">Inline attributes and YAML props can be combined. Inline attributes take precedence:</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::card{.featured}
+```yaml [props]
+title: Featured Article
+author: Jane Doe
+tags:
+  - markdown
+  - documentation
+```
+This combines inline class `.featured` with YAML props
+::"><pre lang="mdc" class="notranslate"><code>::card{.featured}
+```yaml [props]
+title: Featured Article
+author: Jane Doe
+tags:
+  - markdown
+  - documentation
+```
+This combines inline class `.featured` with YAML props
+::
+</code></pre></div>
+<div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto">Use Cases</h3><a id="user-content-use-cases" class="anchor" aria-label="Permalink: Use Cases" href="#use-cases"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p dir="auto"><strong>Configuration-heavy components:</strong></p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::data-table
+```yaml [props]
+columns:
+  - name: Name
+    field: name
+    sortable: true
+  - name: Email
+    field: email
+    sortable: true
+options:
+  striped: true
+  pageSize: 10
+```
+::"><pre lang="mdc" class="notranslate"><code>::data-table
+```yaml [props]
+columns:
+  - name: Name
+    field: name
+    sortable: true
+  - name: Email
+    field: email
+    sortable: true
+options:
+  striped: true
+  pageSize: 10
+```
+::
+</code></pre></div>
+<p dir="auto"><strong>API documentation:</strong></p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::api-endpoint
+```yaml [props]
+method: POST
+path: /api/users
+parameters:
+  - name: username
+    type: string
+    required: true
+  - name: email
+    type: string
+    required: true
+response:
+  status: 201
+  body:
+    id: string
+    username: string
+```
+::"><pre lang="mdc" class="notranslate"><code>::api-endpoint
+```yaml [props]
+method: POST
+path: /api/users
+parameters:
+  - name: username
+    type: string
+    required: true
+  - name: email
+    type: string
+    required: true
+response:
+  status: 201
+  body:
+    id: string
+    username: string
+```
+::
+</code></pre></div>
+<div class="markdown-heading" dir="auto"><h2 tabindex="-1" class="heading-element" dir="auto">Data Binding</h2><a id="user-content-data-binding" class="anchor" aria-label="Permalink: Data Binding" href="#data-binding"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p dir="auto">Props prefixed with <code>:</code> are JSON-parsed at render time. When the value isn't valid JSON, the renderer looks it up as a dot-path against an ambient <strong>render context</strong>, letting authors reference runtime data, frontmatter, meta, or the enclosing component's props without hardcoding them.</p>
+<div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto">Scope</h3><a id="user-content-scope" class="anchor" aria-label="Permalink: Scope" href="#scope"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p dir="auto">The render context exposes four namespaces:</p>
+<markdown-accessiblity-table><table>
+<thead>
+<tr>
+<th>Namespace</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>frontmatter</code></td>
+<td>The document's YAML frontmatter</td>
+</tr>
+<tr>
+<td><code>meta</code></td>
+<td>Plugin-populated metadata on the parsed tree</td>
+</tr>
+<tr>
+<td><code>data</code></td>
+<td>Runtime values passed via the renderer's <code>data</code> prop</td>
+</tr>
+<tr>
+<td><code>props</code></td>
+<td>The enclosing component's own props</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto">Frontmatter</h3><a id="user-content-frontmatter" class="anchor" aria-label="Permalink: Frontmatter" href="#frontmatter"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p dir="auto">Reference any value declared in the document's frontmatter:</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="---
+theAnswer: 42
+user:
+  name: Ada
+---
+
+::question{:answer=&quot;frontmatter.theAnswer&quot;}
+::
+
+Hello, :badge{:label=&quot;frontmatter.user.name&quot;}"><pre lang="mdc" class="notranslate"><code>---
+theAnswer: 42
+user:
+  name: Ada
+---
+
+::question{:answer="frontmatter.theAnswer"}
+::
+
+Hello, :badge{:label="frontmatter.user.name"}
+</code></pre></div>
+<div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto">Runtime data</h3><a id="user-content-runtime-data" class="anchor" aria-label="Permalink: Runtime data" href="#runtime-data"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p dir="auto">Pass values from your app via the renderer's <code>data</code> prop and reference them under the <code>data.</code> namespace:</p>
+<p dir="auto">::code-group</p>
+<div class="highlight highlight-text-html-vue notranslate position-relative overflow-auto" dir="auto" data-snippet-clipboard-copy-content="&lt;Markdown :value=&quot;content&quot; :data=&quot;{ user: { name: 'Ada' } }&quot; /&gt;"><pre>&lt;<span class="pl-ent">Markdown</span> :<span class="pl-e">value</span>=<span class="pl-pds">"</span><span class="pl-s1"><span class="pl-smi">content</span></span><span class="pl-pds">"</span> :<span class="pl-e">data</span>=<span class="pl-pds">"</span><span class="pl-s1">{ user: { name: <span class="pl-s"><span class="pl-pds">'</span>Ada<span class="pl-pds">'</span></span> } }</span><span class="pl-pds">"</span> /&gt;</pre></div>
+<div class="highlight highlight-source-tsx notranslate position-relative overflow-auto" dir="auto" data-snippet-clipboard-copy-content="&lt;Markdown value={content} data={{ user: { name: 'Ada' } }} /&gt;"><pre><span class="pl-c1">&lt;</span><span class="pl-v">Markdown</span> <span class="pl-c1">value</span><span class="pl-c1">=</span><span class="pl-kos">{</span><span class="pl-s1">content</span><span class="pl-kos">}</span> <span class="pl-c1">data</span><span class="pl-c1">=</span><span class="pl-kos">{</span><span class="pl-kos">{</span> <span class="pl-c1">user</span>: <span class="pl-kos">{</span> <span class="pl-c1">name</span>: <span class="pl-s">'Ada'</span> <span class="pl-kos">}</span> <span class="pl-kos">}</span><span class="pl-kos">}</span> <span class="pl-kos">/&gt;</span></pre></div>
+<div class="highlight highlight-source-svelte notranslate position-relative overflow-auto" dir="auto" data-snippet-clipboard-copy-content="&lt;Markdown value={content} data={{ user: { name: 'Ada' } }} /&gt;"><pre>&lt;<span class="pl-ent">Markdown</span> <span class="pl-e">value</span>={<span class="pl-smi">content</span>} <span class="pl-e">data</span>={{ <span class="pl-en">user</span>: { <span class="pl-en">name</span>: <span class="pl-s"><span class="pl-pds">'</span>Ada<span class="pl-pds">'</span></span> } }} /&gt;</pre></div>
+<div class="highlight highlight-source-ts notranslate position-relative overflow-auto" dir="auto" data-snippet-clipboard-copy-content="&lt;comark-markdown [value]=&quot;content&quot; [data]=&quot;{ user: { name: 'Ada' } }&quot; /&gt;"><pre><span class="pl-c1">&lt;</span><span class="pl-smi">comark</span><span class="pl-c1"></span><span class="pl-c1">-</span><span class="pl-s1">markdown</span> <span class="pl-kos">[</span><span class="pl-s1">value</span><span class="pl-kos">]</span><span class="pl-c1">=</span><span class="pl-s">"content"</span> <span class="pl-kos">[</span><span class="pl-s1">data</span><span class="pl-kos">]</span><span class="pl-c1">=</span><span class="pl-s">"{ user: { name: 'Ada' } }"</span> <span class="pl-c1">/</span><span class="pl-c1">&gt;</span></pre></div>
+<p dir="auto">::</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="Welcome, :badge{:label=&quot;data.user.name&quot;}!"><pre lang="mdc" class="notranslate"><code>Welcome, :badge{:label="data.user.name"}!
+</code></pre></div>
+<div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto">Parent component props</h3><a id="user-content-parent-component-props" class="anchor" aria-label="Permalink: Parent component props" href="#parent-component-props"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p dir="auto">Nested components can read the enclosing component's resolved props through the <code>props.</code> namespace. This is useful when a child should mirror something declared once on its parent:</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::card{title=&quot;Hello&quot; variant=&quot;primary&quot;}
+  :::badge{:color=&quot;props.variant&quot; :text=&quot;props.title&quot;}
+  :::
+::"><pre lang="mdc" class="notranslate"><code>::card{title="Hello" variant="primary"}
+  :::badge{:color="props.variant" :text="props.title"}
+  :::
+::
+</code></pre></div>
+<div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto">Resolution rules</h3><a id="user-content-resolution-rules" class="anchor" aria-label="Permalink: Resolution rules" href="#resolution-rules"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<ul dir="auto">
+<li>If the <code>:prefixed</code> value is a valid JSON literal (e.g. <code>5</code>, <code>true</code>, <code>"foo"</code>, <code>{"a":1}</code>), it's used as-is.</li>
+<li>Otherwise, the value is treated as a dot-path and resolved against <code>{ frontmatter, meta, data, props }</code>.</li>
+<li>Unknown paths resolve to <code>undefined</code>: the prop is passed as <code>undefined</code> rather than the raw string.</li>
+<li>Only props authored with the <code>:</code> prefix participate in data binding. Plain <code>prop="value"</code> attributes are always passed as literal strings.</li>
+</ul>
+<p dir="auto">::callout{color="info" icon="i-lucide-replace"}
+Need to interpolate a value directly into text rather than a prop? The <a href="/comarkdown/comark/blob/main/plugins/built-in/binding">Binding plugin</a> adds a <code>{{ path || default }}</code> inline shorthand that resolves against the same render context.
+::</p>
+<div class="markdown-heading" dir="auto"><h2 tabindex="-1" class="heading-element" dir="auto">Slots</h2><a id="user-content-slots" class="anchor" aria-label="Permalink: Slots" href="#slots"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p dir="auto">Block components support slots for passing structured content to components.</p>
+<div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto">Default Slot</h3><a id="user-content-default-slot" class="anchor" aria-label="Permalink: Default Slot" href="#default-slot"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p dir="auto">Content placed directly inside a component goes to the default slot, no prefix needed:</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::alert{type=&quot;info&quot;}
+This content goes to the default slot.
+::"><pre lang="mdc" class="notranslate"><code>::alert{type="info"}
+This content goes to the default slot.
+::
+</code></pre></div>
+<p dir="auto">You can also write <code>#default</code> explicitly, which is useful when mixing it with named slots:</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::card
+#default
+This is the **default** slot content.
+
+#footer
+Footer content here.
+::"><pre lang="mdc" class="notranslate"><code>::card
+#default
+This is the **default** slot content.
+
+#footer
+Footer content here.
+::
+</code></pre></div>
+<div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto">Named Slots</h3><a id="user-content-named-slots" class="anchor" aria-label="Permalink: Named Slots" href="#named-slots"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::card
+#header
+## Card Title
+
+#content
+This is the main content of the card
+
+#footer
+Footer text here
+::"><pre lang="mdc" class="notranslate"><code>::card
+#header
+## Card Title
+
+#content
+This is the main content of the card
+
+#footer
+Footer text here
+::
+</code></pre></div>
+<div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto">Combine with props</h3><a id="user-content-combine-with-props" class="anchor" aria-label="Permalink: Combine with props" href="#combine-with-props"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p dir="auto">You can use both YAML block props and named slots in the same component:</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::card{.featured}
+```yaml [props]
+variant: elevated
+color: primary
+actions:
+  - label: Read More
+    url: /article
+  - label: Share
+    icon: share
+```
+#header
+## Article Title
+*By Jane Doe*
+
+#content
+This is the main article content with **markdown** support.
+
+#footer
+Published on January 15, 2024
+::"><pre lang="mdc" class="notranslate"><code>::card{.featured}
+```yaml [props]
+variant: elevated
+color: primary
+actions:
+  - label: Read More
+    url: /article
+  - label: Share
+    icon: share
+```
+#header
+## Article Title
+*By Jane Doe*
+
+#content
+This is the main article content with **markdown** support.
+
+#footer
+Published on January 15, 2024
+::
+</code></pre></div>
+<p dir="auto">::callout{color="warning" icon="i-lucide-triangle-alert"}
+YAML block props must come immediately after the opening <code>::component</code> line, <strong>before</strong> any slot definitions.
+::</p>
+<p dir="auto"><strong>Correct order:</strong></p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::component{inline-attrs}
+```yaml [props]
+yaml: props
+```
+#slot-name
+Slot content
+::"><pre lang="mdc" class="notranslate"><code>::component{inline-attrs}
+```yaml [props]
+yaml: props
+```
+#slot-name
+Slot content
+::
+</code></pre></div>
+<p dir="auto"><strong>Incorrect order:</strong></p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::component
+#slot-name
+Slot content
+```yaml [props]
+yaml: props  &lt;!-- This won't work --&gt;
+```
+::"><pre lang="mdc" class="notranslate"><code>::component
+#slot-name
+Slot content
+```yaml [props]
+yaml: props  &lt;!-- This won't work --&gt;
+```
+::
+</code></pre></div>
+<div class="markdown-heading" dir="auto"><h2 tabindex="-1" class="heading-element" dir="auto">Nested</h2><a id="user-content-nested" class="anchor" aria-label="Permalink: Nested" href="#nested"><svg data-component="Octicon" class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p dir="auto">Components can be nested within each other using additional colons:</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::outer-component
+Content in outer
+
+:::inner-component{variant=&quot;compact&quot;}
+Content in inner
+:::
+
+More content in outer
+::"><pre lang="mdc" class="notranslate"><code>::outer-component
+Content in outer
+
+:::inner-component{variant="compact"}
+Content in inner
+:::
+
+More content in outer
+::
+</code></pre></div>
+<p dir="auto"><strong>Deep nesting:</strong></p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::level-1
+  :::level-2
+    ::::level-3
+    Content
+    ::::
+  :::
+::"><pre lang="mdc" class="notranslate"><code>::level-1
+  :::level-2
+    ::::level-3
+    Content
+    ::::
+  :::
+::
+</code></pre></div>
+<p dir="auto">::callout{color="info" icon="i-lucide-info"}
+Adding extra colons is not required but is a good practice to keep nesting visually consistent. The parser resolves nesting by matching opening and closing tags.
+::</p>
+<p dir="auto">This also works:</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="::level-1
+  ::level-2
+    ::level-3
+    Content
+    ::
+  ::
+::"><pre lang="mdc" class="notranslate"><code>::level-1
+  ::level-2
+    ::level-3
+    Content
+    ::
+  ::
+::
+</code></pre></div>
+</article>

@@ -1,0 +1,455 @@
+---
+title: Components
+description: Embed custom components directly in your Markdown with block and inline syntax, props, slots, and nested children.
+links:
+  - label: Attributes
+    icon: i-lucide-tag
+    to: /syntax/attributes
+    color: neutral
+    variant: soft
+  - label: Components Plugin
+    icon: i-lucide-plug
+    to: /plugins/defaults/components
+    color: neutral
+    variant: soft
+navigation:
+  title: Components
+---
+
+Comark extends standard Markdown with component syntax, letting you embed custom UI directly in your content while keeping it readable. Parsing is provided by the built-in [`components` plugin](/plugins/defaults/components) (enabled by default).
+
+::callout
+Comark also supports JSON-render syntax in code blocks — see the [json-render plugin](/plugins/built-in/json-render).
+::
+
+## Block
+
+Block components use the `::component-name` syntax and occupy their own line:
+
+```mdc
+::component-name{prop1="value1" prop2="value2"}
+Content inside the component
+
+Can have **markdown** and other elements
+::
+```
+
+Here are some examples of block components:
+
+::code-group
+```mdc [Alert]
+::alert{type="info"}
+This is an important message!
+::
+```
+
+```mdc [Card]
+::card{title="My Card"}
+Card content with **markdown** support
+::
+```
+
+```mdc [Empty]
+::divider
+::
+```
+::
+
+## Inline
+
+Inline components use the `:component-name` syntax and can be placed within text:
+
+```mdc
+Check out this :icon-star component in the middle of text.
+
+Click the :button[Submit]{type="primary"} to continue.
+
+The status is :badge[Active]{color="green"} right now.
+```
+
+| Syntax                        | Description                                  |
+| ----------------------------- | -------------------------------------------- |
+| `:icon-check`                 | Standalone inline component                  |
+| `:badge[New]`                 | Inline component with content                |
+| `:badge[New]{color="blue"}`   | Inline component with content and properties |
+| `:tooltip{text="Hover text"}` | Inline component with properties only        |
+
+## Properties
+
+Components support two property syntaxes: inline attributes and YAML frontmatter.
+
+### Inline Attributes
+
+Use the `{...}` syntax for simple properties:
+
+```mdc
+::component{prop="value"}
+<!-- Standard key-value pair -->
+::
+
+::component{bool}
+<!-- Boolean property (becomes :bool="true" in AST) -->
+::
+
+::component{#custom-id}
+<!-- ID attribute -->
+::
+
+::component{.class-name}
+<!-- CSS class -->
+::
+
+::component{.class-one .class-two}
+<!-- Multiple CSS classes -->
+::
+
+::component{obj='{"key": "value"}'}
+<!-- Object/JSON value -->
+::
+
+::component{multiple="props" bool #id .class}
+<!-- Multiple properties combined -->
+::
+```
+
+### Block Props
+
+For components with many properties, use YAML block syntax inside the component. Two styles are supported:
+
+::code-group
+~~~mdc [Codeblock Style]
+::component
+```yaml [props]
+title: My Component
+type: info
+count: 42
+enabled: true
+items:
+  - First item
+  - Second item
+config:
+  theme: dark
+  mode: auto
+```
+Component content goes here
+
+With full **markdown** support
+::
+~~~
+
+```mdc [Frontmatter Style]
+::component
+---
+title: My Component
+type: info
+count: 42
+enabled: true
+items:
+  - First item
+  - Second item
+config:
+  theme: dark
+  mode: auto
+---
+Component content goes here
+
+With full **markdown** support
+::
+```
+::
+
+::callout{color="info" icon="i-lucide-info"}
+Objects remain objects, arrays remain arrays, and numbers/booleans are parsed as their respective types rather than strings. Your components receive fully typed props.
+::
+
+#### Key Rules
+
+- Must be at the very beginning of the component content
+- Enclosed by `---` delimiters (frontmatter style) or `` ```yaml [props] `` fences (codeblock style)
+- Merged with inline attributes (inline attributes take precedence)
+- Full support for complex data structures
+
+::tip
+The default style can be configured with the [`blockAttributesStyle`](/api/render#options) option.
+::
+
+### Combine Both Syntaxes
+
+Inline attributes and YAML props can be combined. Inline attributes take precedence:
+
+~~~mdc
+::card{.featured}
+```yaml [props]
+title: Featured Article
+author: Jane Doe
+tags:
+  - markdown
+  - documentation
+```
+This combines inline class `.featured` with YAML props
+::
+~~~
+
+### Use Cases
+
+**Configuration-heavy components:**
+
+~~~mdc
+::data-table
+```yaml [props]
+columns:
+  - name: Name
+    field: name
+    sortable: true
+  - name: Email
+    field: email
+    sortable: true
+options:
+  striped: true
+  pageSize: 10
+```
+::
+~~~
+
+**API documentation:**
+
+~~~mdc
+::api-endpoint
+```yaml [props]
+method: POST
+path: /api/users
+parameters:
+  - name: username
+    type: string
+    required: true
+  - name: email
+    type: string
+    required: true
+response:
+  status: 201
+  body:
+    id: string
+    username: string
+```
+::
+~~~
+
+## Data Binding
+
+Props prefixed with `:` are JSON-parsed at render time. When the value isn't valid JSON, the renderer looks it up as a dot-path against an ambient **render context**, letting authors reference runtime data, frontmatter, meta, or the enclosing component's props without hardcoding them.
+
+### Scope
+
+The render context exposes four namespaces:
+
+| Namespace     | Source                                               |
+| ------------- | ---------------------------------------------------- |
+| `frontmatter` | The document's YAML frontmatter                      |
+| `meta`        | Plugin-populated metadata on the parsed tree          |
+| `data`        | Runtime values passed via the renderer's `data` prop |
+| `props`       | The enclosing component's own props                  |
+
+### Frontmatter
+
+Reference any value declared in the document's frontmatter:
+
+```mdc
+---
+theAnswer: 42
+user:
+  name: Ada
+---
+
+::question{:answer="frontmatter.theAnswer"}
+::
+
+Hello, :badge{:label="frontmatter.user.name"}
+```
+
+### Runtime data
+
+Pass values from your app via the renderer's `data` prop and reference them under the `data.` namespace:
+
+::code-group
+```vue [Vue]
+<Markdown :value="content" :data="{ user: { name: 'Ada' } }" />
+```
+
+```tsx [React]
+<Markdown value={content} data={{ user: { name: 'Ada' } }} />
+```
+
+```svelte [Svelte]
+<Markdown value={content} data={{ user: { name: 'Ada' } }} />
+```
+
+```typescript [Angular]
+<comark-markdown [value]="content" [data]="{ user: { name: 'Ada' } }" />
+```
+::
+
+```mdc
+Welcome, :badge{:label="data.user.name"}!
+```
+
+### Parent component props
+
+Nested components can read the enclosing component's resolved props through the `props.` namespace. This is useful when a child should mirror something declared once on its parent:
+
+```mdc
+::card{title="Hello" variant="primary"}
+  :::badge{:color="props.variant" :text="props.title"}
+  :::
+::
+```
+
+### Resolution rules
+
+- If the `:prefixed` value is a valid JSON literal (e.g. `5`, `true`, `"foo"`, `{"a":1}`), it's used as-is.
+- Otherwise, the value is treated as a dot-path and resolved against `{ frontmatter, meta, data, props }`.
+- Unknown paths resolve to `undefined`: the prop is passed as `undefined` rather than the raw string.
+- Only props authored with the `:` prefix participate in data binding. Plain `prop="value"` attributes are always passed as literal strings.
+
+::callout{color="info" icon="i-lucide-replace"}
+Need to interpolate a value directly into text rather than a prop? The [Binding plugin](/plugins/built-in/binding) adds a `{{ path || default }}` inline shorthand that resolves against the same render context.
+::
+
+## Slots
+
+Block components support slots for passing structured content to components.
+
+### Default Slot
+
+Content placed directly inside a component goes to the default slot, no prefix needed:
+
+```mdc
+::alert{type="info"}
+This content goes to the default slot.
+::
+```
+
+You can also write `#default` explicitly, which is useful when mixing it with named slots:
+
+```mdc
+::card
+#default
+This is the **default** slot content.
+
+#footer
+Footer content here.
+::
+```
+
+### Named Slots
+
+```mdc
+::card
+#header
+## Card Title
+
+#content
+This is the main content of the card
+
+#footer
+Footer text here
+::
+```
+
+### Combine with props
+
+You can use both YAML block props and named slots in the same component:
+
+~~~mdc
+::card{.featured}
+```yaml [props]
+variant: elevated
+color: primary
+actions:
+  - label: Read More
+    url: /article
+  - label: Share
+    icon: share
+```
+#header
+## Article Title
+*By Jane Doe*
+
+#content
+This is the main article content with **markdown** support.
+
+#footer
+Published on January 15, 2024
+::
+~~~
+
+::callout{color="warning" icon="i-lucide-triangle-alert"}
+YAML block props must come immediately after the opening `::component` line, **before** any slot definitions.
+::
+
+**Correct order:**
+
+~~~mdc
+::component{inline-attrs}
+```yaml [props]
+yaml: props
+```
+#slot-name
+Slot content
+::
+~~~
+
+**Incorrect order:**
+
+~~~mdc
+::component
+#slot-name
+Slot content
+```yaml [props]
+yaml: props  <!-- This won't work -->
+```
+::
+~~~
+
+## Nested
+
+Components can be nested within each other using additional colons:
+
+```mdc
+::outer-component
+Content in outer
+
+:::inner-component{variant="compact"}
+Content in inner
+:::
+
+More content in outer
+::
+```
+
+**Deep nesting:**
+
+```mdc
+::level-1
+  :::level-2
+    ::::level-3
+    Content
+    ::::
+  :::
+::
+```
+
+::callout{color="info" icon="i-lucide-info"}
+Adding extra colons is not required but is a good practice to keep nesting visually consistent. The parser resolves nesting by matching opening and closing tags.
+::
+
+This also works:
+
+```mdc
+::level-1
+  ::level-2
+    ::level-3
+    Content
+    ::
+  ::
+::
+```
