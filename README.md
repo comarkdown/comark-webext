@@ -24,6 +24,18 @@ Not on the extension stores yet. Grab the latest pack from the [releases page](h
 
 Then open a Comark-flavored Markdown file on GitHub, for example [`docs/content/index.md`](https://github.com/comarkdown/comark/blob/main/docs/content/index.md) from the comark repo.
 
+## Enjoy
+
+```comark
+# Regular Markdown
+
+With a custom component:
+
+::alert{type="warning"}
+This is **Markdown** inside your own component.
+::
+```
+
 ## What it does
 
 On `github.com`, for READMEs and `.md` blob previews:
