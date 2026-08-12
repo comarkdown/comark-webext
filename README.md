@@ -6,17 +6,17 @@ GitHub's Markdown renderer does not understand the Comark extensions: block comp
 
 ## Install
 
-Not on the extension stores yet. Grab the latest pack from the [releases page](https://github.com/atinux/comark-webext/releases/latest):
+Not on the extension stores yet. Grab the latest pack from the [releases page](https://github.com/comarkdown/comark-webext/releases/latest):
 
 ### Chrome / Edge / Chromium
 
-1. Download [`extension.zip`](https://github.com/atinux/comark-webext/releases/latest/download/extension.zip) and unzip it.
+1. Download [`extension.zip`](https://github.com/comarkdown/comark-webext/releases/latest/download/extension.zip) and unzip it.
 2. Open `chrome://extensions` and turn on **Developer mode** (top right).
 3. Click **Load unpacked** and select the unzipped folder.
 
 ### Firefox
 
-1. Download [`extension.xpi`](https://github.com/atinux/comark-webext/releases/latest/download/extension.xpi).
+1. Download [`extension.xpi`](https://github.com/comarkdown/comark-webext/releases/latest/download/extension.xpi).
 2. Open `about:debugging#/runtime/this-firefox`.
 3. Click **Load Temporary Add-on** and select the `.xpi` file.
 
@@ -100,7 +100,7 @@ Then pack the files under `extension/`: `pnpm pack:zip`, `pnpm pack:crx` or `pnp
 
 ## Releases
 
-Every push to `main` runs the checks, builds the extension and publishes a [GitHub release](https://github.com/atinux/comark-webext/releases) with `extension.zip` and `extension.xpi` (see `.github/workflows/release.yml`). The tag comes from the `package.json` version; pushes without a version bump get a `-build.N` suffix.
+Every push to `main` runs the checks, builds the extension and publishes a [GitHub release](https://github.com/comarkdown/comark-webext/releases) with `extension.zip` and `extension.xpi` (see `.github/workflows/release.yml`). The tag comes from the `package.json` version; pushes without a version bump get a `-build.N` suffix.
 
 To include the `.crx` pack with a stable extension ID, add the contents of the local `key.pem` as the `CRX_PRIVATE_KEY` repository secret.
 

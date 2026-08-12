@@ -28,6 +28,10 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
+      # build first: it generates src/auto-imports.d.ts, which typecheck needs
+      - name: Build
+        run: pnpm build
+
       - name: Lint
         run: pnpm lint
 
@@ -36,9 +40,6 @@ jobs:
 
       - name: Test
         run: pnpm vitest run
-
-      - name: Build
-        run: pnpm build
 
       - name: Pack zip and xpi
         run: |
