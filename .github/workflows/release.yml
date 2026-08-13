@@ -43,7 +43,7 @@ jobs:
         run: |
           pnpm pack:zip
           mkdir -p artifacts
-          mv extension.zip artifacts/
+          mv comark-for-github.zip artifacts/
 
       # no .crx asset: Chrome on Windows/macOS rejects non-Web-Store crx
       # files (CRX_REQUIRED_PROOF_MISSING); the zip + "Load unpacked" is the
@@ -59,7 +59,7 @@ jobs:
       - name: Pack xpi
         run: |
           pnpm pack:xpi
-          mv extension.xpi artifacts/
+          mv comark-for-github.xpi artifacts/
 
       - name: Resolve tag
         id: tag

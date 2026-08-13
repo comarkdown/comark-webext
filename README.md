@@ -12,13 +12,13 @@ Not on the extension stores yet. Grab the latest pack from the [releases page](h
 
 ### Chrome / Edge / Chromium
 
-1. Download [`extension.zip`](https://github.com/comarkdown/comark-webext/releases/latest/download/extension.zip) and unzip it.
+1. Download [`comark-for-github.zip`](https://github.com/comarkdown/comark-webext/releases/latest/download/comark-for-github.zip) and unzip it.
 2. Open `chrome://extensions` and turn on **Developer mode** (top right).
 3. Click **Load unpacked** and select the unzipped folder.
 
 ### Firefox
 
-1. Download [`extension.xpi`](https://github.com/comarkdown/comark-webext/releases/latest/download/extension.xpi).
+1. Download [`comark-for-github.xpi`](https://github.com/comarkdown/comark-webext/releases/latest/download/comark-for-github.xpi).
 2. Open `about:debugging#/runtime/this-firefox`.
 3. Click **Load Temporary Add-on** and select the `.xpi` file.
 
@@ -102,7 +102,7 @@ Then pack the files under `extension/`: `pnpm pack:zip`, `pnpm pack:crx` or `pnp
 
 ## Releases
 
-Every push to `main` runs the checks, builds the extension and publishes a [GitHub release](https://github.com/comarkdown/comark-webext/releases) with `extension.zip` (Chrome build) and `extension.xpi` (Firefox build) — see `.github/workflows/release.yml`. The tag comes from the `package.json` version; pushes without a version bump get a `-build.N` suffix.
+Every push to `main` runs the checks, builds the extension and publishes a [GitHub release](https://github.com/comarkdown/comark-webext/releases) with `comark-for-github.zip` (Chrome build) and `comark-for-github.xpi` (Firefox build) — see `.github/workflows/release.yml`. The tag comes from the `package.json` version; pushes without a version bump get a `-build.N` suffix.
 
 No `.crx` is published: Chrome on Windows/macOS rejects crx files that do not come from the Chrome Web Store (`CRX_REQUIRED_PROOF_MISSING`). Use the zip with **Load unpacked** until the Web Store listing is live.
 
