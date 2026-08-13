@@ -63,8 +63,13 @@ export async function getManifest() {
       gecko: {
         id: 'comark-webext@comark.dev',
         strict_min_version: '112.0',
+        // AMO requires a data collection declaration; nothing is collected
+        // (not in webextension-polyfill types yet, hence the loose typing)
+        data_collection_permissions: {
+          required: ['none'],
+        },
       },
-    }
+    } as Manifest.WebExtensionManifest['browser_specific_settings']
   }
 
   return manifest
