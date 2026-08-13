@@ -11,9 +11,6 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
-    env:
-      # optional: contents of key.pem, keeps a stable Chrome extension ID
-      CRX_PRIVATE_KEY: ${{ secrets.CRX_PRIVATE_KEY }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -48,13 +45,9 @@ jobs:
           mkdir -p artifacts
           mv extension.zip artifacts/
 
-      - name: Pack crx
-        if: env.CRX_PRIVATE_KEY != ''
-        run: |
-          printf '%s' "$CRX_PRIVATE_KEY" > key.pem
-          pnpm pack:crx
-          rm -f key.pem
-          mv extension.crx artifacts/
+      # no .crx asset: Chrome on Windows/macOS rejects non-Web-Store crx
+      # files (CRX_REQUIRED_PROOF_MISSING); the zip + "Load unpacked" is the
+      # Chrome path until the Web Store listing exists
 
       # the xpi must come from the Firefox-flavored build
       # (gecko id, background scripts instead of a service worker).

@@ -102,9 +102,9 @@ Then pack the files under `extension/`: `pnpm pack:zip`, `pnpm pack:crx` or `pnp
 
 ## Releases
 
-Every push to `main` runs the checks, builds the extension and publishes a [GitHub release](https://github.com/comarkdown/comark-webext/releases) with `extension.zip` and `extension.xpi` (see `.github/workflows/release.yml`). The tag comes from the `package.json` version; pushes without a version bump get a `-build.N` suffix.
+Every push to `main` runs the checks, builds the extension and publishes a [GitHub release](https://github.com/comarkdown/comark-webext/releases) with `extension.zip` (Chrome build) and `extension.xpi` (Firefox build) — see `.github/workflows/release.yml`. The tag comes from the `package.json` version; pushes without a version bump get a `-build.N` suffix.
 
-To include the `.crx` pack with a stable extension ID, add the contents of the local `key.pem` as the `CRX_PRIVATE_KEY` repository secret.
+No `.crx` is published: Chrome on Windows/macOS rejects crx files that do not come from the Chrome Web Store (`CRX_REQUIRED_PROOF_MISSING`). Use the zip with **Load unpacked** until the Web Store listing is live.
 
 ## Notes
 
