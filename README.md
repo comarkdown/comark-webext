@@ -1,3 +1,5 @@
+![Comark for GitHub screenshot](./assets/banner.png)
+
 # Comark for GitHub
 
 A browser extension (Chrome, Firefox) that fixes GitHub's rendering of Markdown files written with [Comark](https://comark.dev) syntax — components, attributes, spans and bindings.
