@@ -113,3 +113,7 @@ No `.crx` is published: Chrome on Windows/macOS rejects crx files that do not co
 ## Credits
 
 Built on [vitesse-webext](https://github.com/antfu/vitesse-webext) by [Anthony Fu](https://github.com/antfu) — Vite-powered WebExtension starter with Vue 3, HMR and dynamic manifest.
+
+## License
+
+[MIT](./LICENSE) — Comark team and contributors.

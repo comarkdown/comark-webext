@@ -5,6 +5,7 @@
   "private": true,
   "packageManager": "pnpm@9.7.1",
   "description": "Renders Comark (Markdown components & attributes) syntax nicely on GitHub",
+  "license": "MIT",
   "scripts": {
     "dev": "npm run clear && cross-env NODE_ENV=development run-p dev:*",
     "dev-firefox": "npm run clear && cross-env NODE_ENV=development EXTENSION=firefox run-p dev:*",
