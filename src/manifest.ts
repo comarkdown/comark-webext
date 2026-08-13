@@ -14,7 +14,11 @@ export async function getManifest() {
     version: pkg.version,
     description: pkg.description,
     action: {
-      default_icon: 'assets/icon-512.png',
+      default_icon: {
+        16: 'assets/icon-16.png',
+        48: 'assets/icon-48.png',
+        128: 'assets/icon-128.png',
+      },
       default_popup: 'dist/popup/index.html',
     },
     background: isFirefox
@@ -26,9 +30,10 @@ export async function getManifest() {
           service_worker: 'dist/background/index.mjs',
         },
     icons: {
-      16: 'assets/icon-512.png',
-      48: 'assets/icon-512.png',
-      128: 'assets/icon-512.png',
+      16: 'assets/icon-16.png',
+      48: 'assets/icon-48.png',
+      128: 'assets/icon-128.png',
+      512: 'assets/icon-512.png',
     },
     permissions: [
       'storage',
@@ -57,17 +62,21 @@ export async function getManifest() {
     },
   }
 
-  // Firefox MV3 requires an explicit add-on ID; it also keys AMO updates
+  // Firefox MV3 requires an explicit add-on ID; it also keys AMO updates.
+  // data_collection_permissions (required by AMO; nothing is collected)
+  // exists since Firefox 140 / Android 142, hence the minimum versions.
+  // The property is not in webextension-polyfill types yet: loose typing.
   if (isFirefox) {
     manifest.browser_specific_settings = {
       gecko: {
         id: 'comark-webext@comark.dev',
-        strict_min_version: '112.0',
-        // AMO requires a data collection declaration; nothing is collected
-        // (not in webextension-polyfill types yet, hence the loose typing)
+        strict_min_version: '140.0',
         data_collection_permissions: {
           required: ['none'],
         },
+      },
+      gecko_android: {
+        strict_min_version: '142.0',
       },
     } as Manifest.WebExtensionManifest['browser_specific_settings']
   }

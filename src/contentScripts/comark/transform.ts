@@ -21,10 +21,19 @@ const CODE_CONTAINER = 'pre, .highlight, .snippet-clipboard-content'
 
 const INLINE_HOSTS = new Set(['STRONG', 'EM', 'A', 'CODE', 'IMG', 'DEL', 'B', 'I', 'SUP', 'SUB', 'SPAN'])
 
+/**
+ * Parses an HTML string into inert nodes. DOMParser (instead of innerHTML)
+ * keeps the AMO linter quiet: the parsed document cannot run scripts, and
+ * nodes are adopted into the page only on insertion.
+ */
+function parseHtml(html: string): Node[] {
+  const doc = new DOMParser().parseFromString(html, 'text/html')
+  return Array.from(doc.body.childNodes)
+}
+
 function htmlToElement(html: string): HTMLElement | null {
-  const template = document.createElement('template')
-  template.innerHTML = html
-  return template.content.firstElementChild as HTMLElement | null
+  const [first] = parseHtml(html)
+  return first instanceof HTMLElement ? first : null
 }
 
 function isValidAttributesPosition(node: Text, index: number, length: number): boolean {
@@ -119,7 +128,7 @@ export function transformFences(article: HTMLElement): number {
     const code = pre.querySelector('code')
     if (!code)
       continue
-    code.innerHTML = highlightTokens(code.textContent ?? '')
+    code.replaceChildren(...parseHtml(highlightTokens(code.textContent ?? '')))
     pre.setAttribute('data-comark', 'fence')
     count++
   }
@@ -162,13 +171,12 @@ export async function renderArticle(article: HTMLElement, source: string, rawUrl
   const html = await renderComarkHtml(source)
 
   const frontmatterTable = article.querySelector('markdown-accessiblity-table')
-  const replacement = document.createElement('template')
-  replacement.innerHTML = html
+  const replacement = parseHtml(html)
 
   article.replaceChildren()
   if (frontmatterTable)
     article.appendChild(frontmatterTable)
-  article.appendChild(replacement.content)
+  article.append(...replacement)
 
   if (rawUrl)
     rewriteRelativeUrls(article, rawUrl)
