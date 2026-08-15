@@ -2,21 +2,27 @@
 
 # Comark for GitHub
 
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/mbbnjnblfplfjkakjfjkhhefhcdnhcin?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/comark-for-github/mbbnjnblfplfjkakjfjkhhefhcdnhcin)
+
 A browser extension (Chrome, Firefox) that fixes GitHub's rendering of Markdown files written with [Comark](https://comark.dev) syntax — components, attributes, spans and bindings.
 
 GitHub's Markdown renderer does not understand the Comark extensions: block components leak as plain paragraphs or broken headings, attribute groups show up as stray braces, and `mdc` code fences stay unhighlighted. With this extension installed, those files become readable again.
 
 ## Install
 
-Not on the extension stores yet. Grab the latest pack from the [releases page](https://github.com/comarkdown/comark-webext/releases/latest):
-
 ### Chrome / Edge / Chromium
+
+Install directly from the **[Chrome Web Store](https://chromewebstore.google.com/detail/comark-for-github/mbbnjnblfplfjkakjfjkhhefhcdnhcin)**.
+
+Alternatively, grab the latest pack from the [releases page](https://github.com/comarkdown/comark-webext/releases/latest):
 
 1. Download [`comark-for-github.zip`](https://github.com/comarkdown/comark-webext/releases/latest/download/comark-for-github.zip) and unzip it.
 2. Open `chrome://extensions` and turn on **Developer mode** (top right).
 3. Click **Load unpacked** and select the unzipped folder.
 
 ### Firefox
+
+> Firefox listing is pending approval on addons.mozilla.org. In the meantime, load it manually:
 
 1. Download [`comark-for-github.xpi`](https://github.com/comarkdown/comark-webext/releases/latest/download/comark-for-github.xpi).
 2. Open `about:debugging#/runtime/this-firefox`.
@@ -104,7 +110,7 @@ Then pack the files under `extension/`: `pnpm pack:zip`, `pnpm pack:crx` or `pnp
 
 Every push to `main` runs the checks, builds the extension and publishes a [GitHub release](https://github.com/comarkdown/comark-webext/releases) with `comark-for-github.zip` (Chrome build) and `comark-for-github.xpi` (Firefox build) — see `.github/workflows/release.yml`. The tag comes from the `package.json` version; pushes without a version bump get a `-build.N` suffix.
 
-No `.crx` is published: Chrome on Windows/macOS rejects crx files that do not come from the Chrome Web Store (`CRX_REQUIRED_PROOF_MISSING`). Use the zip with **Load unpacked** until the Web Store listing is live.
+No `.crx` is published: Chrome on Windows/macOS rejects crx files that do not come from the Chrome Web Store (`CRX_REQUIRED_PROOF_MISSING`). Install from the [Chrome Web Store](https://chromewebstore.google.com/detail/comark-for-github/mbbnjnblfplfjkakjfjkhhefhcdnhcin) or use the zip with **Load unpacked**.
 
 ## Notes
 
