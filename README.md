@@ -25,6 +25,14 @@ Alternatively, grab the latest pack from the [releases page](https://github.com/
 
 Install directly from **[Firefox Add-ons](https://addons.mozilla.org/en-GB/firefox/addon/comark-for-github/)**.
 
+Alternatively, load the latest release manually:
+
+1. Download [`comark-for-github.xpi`](https://github.com/comarkdown/comark-webext/releases/latest/download/comark-for-github.xpi).
+2. Open `about:debugging#/runtime/this-firefox`.
+3. Click **Load Temporary Add-on** and select the `.xpi` file.
+
+> Firefox removes temporary add-ons on restart.
+
 Then open a Comark-flavored Markdown file on GitHub, for example [`docs/content/index.md`](https://github.com/comarkdown/comark/blob/main/docs/content/index.md) from the comark repo.
 
 ## Enjoy
