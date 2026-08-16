@@ -173,6 +173,7 @@ describe('rewriteRelativeUrls', () => {
     const article = mountEmpty()
     article.innerHTML = '<img src="./img/logo.png"><a href="../other.md">a</a>'
     rewriteRelativeUrls(article, 'https://gitlab.com/group/project/-/raw/main/docs/content/index.md')
+    // Images need raw content; file links should navigate to GitLab's blob view.
     expect(article.querySelector('img')!.getAttribute('src')).toBe('https://gitlab.com/group/project/-/raw/main/docs/content/img/logo.png')
     expect(article.querySelector('a')!.getAttribute('href')).toBe('https://gitlab.com/group/project/-/blob/main/docs/other.md')
   })

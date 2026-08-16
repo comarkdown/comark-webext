@@ -146,11 +146,15 @@ const RELATIVE_URL = /^(?![a-z][\w+.-]*:|\/|#)/i
  */
 export function rewriteRelativeUrls(article: HTMLElement, rawUrl: string): void {
   const rawBase = rawUrl.slice(0, rawUrl.lastIndexOf('/') + 1)
-  const blobBase = rawBase
-    // raw.githubusercontent.com/{owner}/{repo}/{ref-and-dir}/ -> GitHub blob dir
-    .replace(/^https:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\//, 'https://github.com/$1/$2/blob/')
-    // gitlab.com/{namespace}/{project}/-/raw/{ref-and-dir}/ -> GitLab blob dir
-    .replace(/\/-\/raw\//, '/-/blob/')
+  // raw.githubusercontent.com/{owner}/{repo}/{ref-and-dir}/ -> GitHub blob dir
+  const githubBlobBase = rawBase.replace(
+    /^https:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\//,
+    'https://github.com/$1/$2/blob/',
+  )
+  // gitlab.com/{namespace}/{project}/-/raw/{ref-and-dir}/ -> GitLab blob dir
+  const blobBase = githubBlobBase === rawBase
+    ? rawBase.replace(/\/-\/raw\//, '/-/blob/')
+    : githubBlobBase
 
   for (const img of article.querySelectorAll<HTMLImageElement>('img[src]')) {
     const src = img.getAttribute('src') ?? ''
