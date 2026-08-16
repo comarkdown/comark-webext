@@ -131,8 +131,8 @@ const sourceCache = new Map<string, string | null>()
 export async function fetchRawSource(urls: string[]): Promise<RawSource | null> {
   for (const url of urls) {
     if (sourceCache.has(url)) {
-      const cached = sourceCache.get(url)!
-      if (cached !== null)
+      const cached = sourceCache.get(url)
+      if (typeof cached === 'string')
         return { url, text: cached }
       continue
     }
