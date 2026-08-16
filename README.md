@@ -58,7 +58,7 @@ On `github.com` and `gitlab.com`, for READMEs and `.md` blob previews:
    - Inline components (`:badge[New]{color="blue"}`), attribute groups (`**bold**{.accent}`), spans (`[text]{.mark}`) and bindings (`{{ user.name }}`) become highlighted inline code.
 4. **Highlights code fences** with [rangi](https://github.com/pi0/rangi) — including ` ```mdc ` / ` ```comark ` fences, which hosts leave plain. On non-Comark pages, `mdc` fences are highlighted in place without touching anything else.
 
-Everything follows GitHub's light, dark and auto color modes.
+Everything follows GitHub and GitLab light, dark, and auto color modes.
 
 ### Safety
 

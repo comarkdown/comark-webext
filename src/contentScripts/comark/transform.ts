@@ -167,7 +167,7 @@ export function rewriteRelativeUrls(article: HTMLElement, rawUrl: string): void 
 /**
  * Replaces a host's rendering of one markdown article with the comark
  * rendering of its raw source. A host frontmatter table is kept. Throws on
- * render failure: the caller keeps GitHub's DOM and falls back to fences.
+ * render failure: the caller keeps the host's DOM and falls back to fences.
  */
 export async function renderArticle(article: HTMLElement, source: string, rawUrl?: string): Promise<number> {
   const html = await renderComarkHtml(source)
