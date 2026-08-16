@@ -42,6 +42,7 @@ export async function getManifest() {
       {
         matches: [
           'https://github.com/*',
+          'https://gitlab.com/*',
         ],
         js: [
           'dist/contentScripts/index.global.js',
@@ -51,7 +52,7 @@ export async function getManifest() {
     web_accessible_resources: [
       {
         resources: ['dist/contentScripts/style.css'],
-        matches: ['https://github.com/*'],
+        matches: ['https://github.com/*', 'https://gitlab.com/*'],
       },
     ],
     content_security_policy: {

@@ -3,6 +3,7 @@ import componentsHtml from './fixtures/components.html?raw'
 import componentsSource from './fixtures/components.md?raw'
 import landingHtml from './fixtures/landing.html?raw'
 import landingSource from './fixtures/landing.md?raw'
+import { PROCESSED_ATTR, findGitLabTargets } from '~/contentScripts/comark/hosting'
 import { renderArticle, rewriteRelativeUrls, transformFences } from '~/contentScripts/comark/transform'
 
 function mount(html: string): HTMLElement {
@@ -167,6 +168,14 @@ describe('rewriteRelativeUrls', () => {
     expect(second.getAttribute('href')).toBe('#anchor')
     expect(third.getAttribute('href')).toBe('/site')
   })
+
+  it('resolves GitLab links against the blob directory', () => {
+    const article = mountEmpty()
+    article.innerHTML = '<img src="./img/logo.png"><a href="../other.md">a</a>'
+    rewriteRelativeUrls(article, 'https://gitlab.com/group/project/-/raw/main/docs/content/index.md')
+    expect(article.querySelector('img')!.getAttribute('src')).toBe('https://gitlab.com/group/project/-/raw/main/docs/content/img/logo.png')
+    expect(article.querySelector('a')!.getAttribute('href')).toBe('https://gitlab.com/group/project/-/blob/main/docs/other.md')
+  })
 })
 
 describe('transformFences (non-comark pages)', () => {
@@ -211,5 +220,32 @@ describe('transformFences (non-comark pages)', () => {
     transformFences(article)
     expect(article.querySelector('pre code')!.textContent).toBe('::alert\na <b> tag\n::')
     expect(article.querySelector('pre code b')).toBeNull()
+  })
+
+  it('highlights GitLab language classes', () => {
+    const article = mount('<article class="markdown-body"><pre><code class="language-mdc">::alert\nhi\n::</code></pre></article>')
+    expect(transformFences(article)).toBe(1)
+    expect(article.querySelector('pre[data-comark="fence"]')).toBeTruthy()
+  })
+})
+
+describe('findTargets: GitLab', () => {
+  it('finds Markdown blob previews and resolves the GitLab raw URL', () => {
+    window.history.pushState({}, '', '/group/project/-/blob/main/docs/example.md')
+    document.body.innerHTML = '<div class="file-content js-markup-content md"></div>'
+
+    const [target] = findGitLabTargets()
+    expect(target.article.classList).toContain('md')
+    expect(target.rawUrls).toEqual(['http://localhost/group/project/-/raw/main/docs/example.md'])
+    target.article.setAttribute(PROCESSED_ATTR, '1')
+    expect(findGitLabTargets()).toEqual([])
+  })
+
+  it('uses the rendered README link for a nested project', () => {
+    window.history.pushState({}, '', '/group/subgroup/project')
+    document.body.innerHTML = '<div class="readme-holder"><a href="/group/subgroup/project/-/blob/main/README.md">README.md</a><div class="file-content js-markup-content md"></div></div>'
+
+    const [target] = findGitLabTargets()
+    expect(target.rawUrls[0]).toBe('http://localhost/group/subgroup/project/-/raw/main/README.md')
   })
 })

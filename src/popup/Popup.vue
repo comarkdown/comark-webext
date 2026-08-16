@@ -9,7 +9,7 @@ import { comarkEnabled } from '~/logic/storage'
       Comark for GitHub
     </h1>
     <p class="mt-1 text-sm opacity-60">
-      Renders Comark components and attributes nicely on GitHub markdown pages.
+      Renders Comark components and attributes nicely on GitHub, GitLab, and other Git hosts.
     </p>
 
     <label class="mt-4 flex items-center justify-center gap-2 cursor-pointer select-none">
@@ -22,7 +22,7 @@ import { comarkEnabled } from '~/logic/storage'
     </label>
 
     <p class="mt-3 text-xs opacity-50">
-      Toggling reloads open GitHub tabs.
+      Toggling reloads open GitHub and GitLab tabs.
     </p>
   </main>
 </template>

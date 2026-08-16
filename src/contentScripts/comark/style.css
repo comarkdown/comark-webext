@@ -1,6 +1,4 @@
-/* Comark for GitHub — injected styles.
-   rangi runs in `classes` mode: colors map to GitHub's prettylights
-   variables, so light/dark themes follow the page automatically. */
+/* Comark for GitHub — injected styles for GitHub and GitLab. */
 
 .comark-block {
   position: relative;
@@ -14,7 +12,7 @@
   right: 10px;
   font-size: 11px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
-  color: var(--fgColor-muted, #59636e);
+  color: var(--fgColor-muted, var(--gl-text-color-secondary, #59636e));
   opacity: 0.7;
   pointer-events: none;
   user-select: none;
@@ -26,7 +24,7 @@
   overflow: auto;
   font-size: 85%;
   line-height: 1.45;
-  background-color: var(--bgColor-muted, #f6f8fa);
+  background-color: var(--bgColor-muted, var(--gl-background-color-subtle, #f6f8fa));
   border-radius: 6px;
 }
 
@@ -34,7 +32,7 @@
   display: block;
   white-space: pre;
   font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
-  color: var(--fgColor-default, #1f2328);
+  color: var(--fgColor-default, var(--gl-text-color-default, #1f2328));
 }
 
 code.shj[data-comark='inline'] {
@@ -43,8 +41,8 @@ code.shj[data-comark='inline'] {
   font-size: 85%;
   white-space: break-spaces;
   font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
-  color: var(--fgColor-default, #1f2328);
-  background-color: var(--bgColor-neutral-muted, #eff2f5);
+  color: var(--fgColor-default, var(--gl-text-color-default, #1f2328));
+  background-color: var(--bgColor-neutral-muted, var(--gl-background-color-subtle, #eff2f5));
   border-radius: 6px;
 }
 
@@ -108,62 +106,90 @@ code.shj[data-comark='inline'] {
   color: var(--shiki-dark, inherit) !important;
 }
 
+[data-color-scheme='dark'] .md pre.shj span[style] {
+  color: var(--shiki-dark, inherit) !important;
+}
+
+html.gl-dark .md pre.shj span[style] {
+  color: var(--shiki-dark, inherit) !important;
+}
+
 @media (prefers-color-scheme: dark) {
   [data-color-mode='auto'] .markdown-body pre.shj span[style] {
+    color: var(--shiki-dark, inherit) !important;
+  }
+
+  [data-color-scheme='auto'] .md pre.shj span[style] {
+    color: var(--shiki-dark, inherit) !important;
+  }
+
+  html.gl-system .md pre.shj span[style] {
     color: var(--shiki-dark, inherit) !important;
   }
 }
 
 /* comark alert blockquotes (> [!NOTE] etc.), GitHub-alert look */
-.markdown-body blockquote[as] {
+.markdown-body blockquote[as],
+.md blockquote[as] {
   color: inherit;
   border-left-width: 0.25em;
   border-left-style: solid;
 }
 
-.markdown-body blockquote[as]::before {
+.markdown-body blockquote[as]::before,
+.md blockquote[as]::before {
   display: block;
   font-weight: 600;
   text-transform: capitalize;
   content: attr(as);
 }
 
-.markdown-body blockquote[as='note'] {
+.markdown-body blockquote[as='note'],
+.md blockquote[as='note'] {
   border-left-color: var(--borderColor-accent-emphasis, #0969da);
 }
 
-.markdown-body blockquote[as='note']::before {
+.markdown-body blockquote[as='note']::before,
+.md blockquote[as='note']::before {
   color: var(--fgColor-accent, #0969da);
 }
 
-.markdown-body blockquote[as='tip'] {
+.markdown-body blockquote[as='tip'],
+.md blockquote[as='tip'] {
   border-left-color: var(--borderColor-success-emphasis, #1a7f37);
 }
 
-.markdown-body blockquote[as='tip']::before {
+.markdown-body blockquote[as='tip']::before,
+.md blockquote[as='tip']::before {
   color: var(--fgColor-success, #1a7f37);
 }
 
-.markdown-body blockquote[as='important'] {
+.markdown-body blockquote[as='important'],
+.md blockquote[as='important'] {
   border-left-color: var(--borderColor-done-emphasis, #8250df);
 }
 
-.markdown-body blockquote[as='important']::before {
+.markdown-body blockquote[as='important']::before,
+.md blockquote[as='important']::before {
   color: var(--fgColor-done, #8250df);
 }
 
-.markdown-body blockquote[as='warning'] {
+.markdown-body blockquote[as='warning'],
+.md blockquote[as='warning'] {
   border-left-color: var(--borderColor-attention-emphasis, #9a6700);
 }
 
-.markdown-body blockquote[as='warning']::before {
+.markdown-body blockquote[as='warning']::before,
+.md blockquote[as='warning']::before {
   color: var(--fgColor-attention, #9a6700);
 }
 
-.markdown-body blockquote[as='caution'] {
+.markdown-body blockquote[as='caution'],
+.md blockquote[as='caution'] {
   border-left-color: var(--borderColor-danger-emphasis, #cf222e);
 }
 
-.markdown-body blockquote[as='caution']::before {
+.markdown-body blockquote[as='caution']::before,
+.md blockquote[as='caution']::before {
   color: var(--fgColor-danger, #cf222e);
 }

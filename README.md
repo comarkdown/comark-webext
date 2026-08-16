@@ -5,9 +5,9 @@
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/mbbnjnblfplfjkakjfjkhhefhcdnhcin?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/comark-for-github/mbbnjnblfplfjkakjfjkhhefhcdnhcin)
 [![Firefox Add-ons](https://img.shields.io/amo/v/comark-for-github?label=Firefox%20Add-ons&logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/en-GB/firefox/addon/comark-for-github/)
 
-A browser extension (Chrome, Firefox) that fixes GitHub's rendering of Markdown files written with [Comark](https://comark.dev) syntax — components, attributes, spans and bindings.
+A browser extension (Chrome, Firefox) that fixes GitHub and GitLab's rendering of Markdown files written with [Comark](https://comark.dev) syntax — components, attributes, spans and bindings. The extension retains its **Comark for GitHub** name while supporting other Git hosts.
 
-GitHub's Markdown renderer does not understand the Comark extensions: block components leak as plain paragraphs or broken headings, attribute groups show up as stray braces, and `mdc` code fences stay unhighlighted. With this extension installed, those files become readable again.
+Git hosting Markdown renderers do not understand the Comark extensions: block components leak as plain paragraphs or broken headings, attribute groups show up as stray braces, and `mdc` code fences stay unhighlighted. With this extension installed, those files become readable again.
 
 ## Install
 
@@ -33,7 +33,7 @@ Alternatively, load the latest release manually:
 
 > Firefox removes temporary add-ons on restart.
 
-Then open a Comark-flavored Markdown file on GitHub, for example [`docs/content/index.md`](https://github.com/comarkdown/comark/blob/main/docs/content/index.md) from the comark repo.
+Then open a Comark-flavored Markdown file on GitHub or GitLab, for example [`docs/content/index.md`](https://github.com/comarkdown/comark/blob/main/docs/content/index.md) from the comark repo.
 
 ## Enjoy
 
@@ -49,14 +49,14 @@ This is **Markdown** inside your own component.
 
 ## What it does
 
-On `github.com`, for READMEs and `.md` blob previews:
+On `github.com` and `gitlab.com`, for READMEs and `.md` blob previews:
 
-1. **Detects Comark syntax.** The extension fetches the raw Markdown source (from `raw.githubusercontent.com`) and scans it. Plain Markdown files are left untouched.
-2. **Re-renders the whole document with Comark.** The raw source is parsed by the real Comark parser and rendered to HTML with [`@comark/html`](https://www.npmjs.com/package/@comark/html), replacing GitHub's lossy rendering.
+1. **Detects Comark syntax.** The extension fetches and scans the raw Markdown source. Plain Markdown files are left untouched.
+2. **Re-renders the whole document with Comark.** The raw source is parsed by the real Comark parser and rendered to HTML with [`@comark/html`](https://www.npmjs.com/package/@comark/html), replacing the host's lossy rendering.
 3. **Shows Comark syntax as highlighted code:**
    - Block components (`::card` … `::`) become syntax-highlighted code blocks of their original source, YAML props included, with a component-name badge.
    - Inline components (`:badge[New]{color="blue"}`), attribute groups (`**bold**{.accent}`), spans (`[text]{.mark}`) and bindings (`{{ user.name }}`) become highlighted inline code.
-4. **Highlights code fences** with [rangi](https://github.com/pi0/rangi) using GitHub's own color palette — including ` ```mdc ` / ` ```comark ` fences, which GitHub leaves plain. On non-Comark pages, `mdc` fences are highlighted in place without touching anything else.
+4. **Highlights code fences** with [rangi](https://github.com/pi0/rangi) — including ` ```mdc ` / ` ```comark ` fences, which hosts leave plain. On non-Comark pages, `mdc` fences are highlighted in place without touching anything else.
 
 Everything follows GitHub's light, dark and auto color modes.
 
@@ -64,11 +64,11 @@ Everything follows GitHub's light, dark and auto color modes.
 
 - The rendered HTML goes through Comark's `security` plugin: `<script>`/`<iframe>`-style tags are dropped, event-handler attributes are stripped, and `javascript:` URLs are not rendered.
 - If rendering fails for any reason, GitHub's original rendering is kept.
-- A popup toggle enables/disables the extension (toggling reloads open GitHub tabs).
+- A popup toggle enables/disables the extension (toggling reloads open GitHub and GitLab tabs).
 
 ### Known trade-offs
 
-- On re-rendered pages, GitHub extras are lost: octicon hover anchors on headings, the camo image proxy, and copy buttons on code fences. Relative links and images are rewritten so they keep working.
+- On re-rendered pages, host-provided extras are lost, such as heading hover anchors, image proxies, and copy buttons on code fences. Relative links and images are rewritten so they keep working.
 - Bare domains (`example.com` without a protocol) are not auto-linked, since linkify would mangle `{{ dotted.path }}` bindings.
 
 ## Development
@@ -111,7 +111,7 @@ Then pack the files under `extension/`: `pnpm pack:zip`, `pnpm pack:crx` or `pnp
 ## Project structure
 
 - `src/contentScripts/comark/` - the core logic
-  - `github.ts` - page detection, raw source fetching, soft-navigation handling
+  - `hosting.ts` - GitHub and GitLab page detection, raw source fetching, soft-navigation handling
   - `scanner.ts` - regex scan of the raw source (Comark syntax gate + inline fragments)
   - `renderer.ts` - full Comark HTML rendering with component/span handlers
   - `transform.ts` - DOM replacement, inline code wrapping, fence highlighting

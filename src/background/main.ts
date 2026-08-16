@@ -8,5 +8,5 @@ if (import.meta.hot) {
 
 browser.runtime.onInstalled.addListener((): void => {
   // eslint-disable-next-line no-console
-  console.log('Comark for GitHub installed')
+  console.log('Comark for GitHub installed (with GitLab support)')
 })

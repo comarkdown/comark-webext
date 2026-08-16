@@ -1,4 +1,4 @@
-import { PROCESSED_ATTR, fetchRawSource, findTargets, onContentChange } from './comark/github'
+import { PROCESSED_ATTR, fetchRawSource, findTargets, onContentChange } from './comark/hosting'
 import { hasComarkSyntax } from './comark/scanner'
 import { renderArticle, transformFences } from './comark/transform'
 import './comark/style.css'
