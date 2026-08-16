@@ -21,6 +21,7 @@ function encodedPath(segments: string[]): string {
 }
 
 const GITLAB_MARKDOWN = '.file-content.js-markup-content, .file-content.md, .file-content .md, .readme-holder .md'
+const MARKDOWN_TARGET_ADDED = 'article.markdown-body, .file-content.js-markup-content, .file-content.md, .readme-holder'
 
 function getArticles(selector: string): HTMLElement[] {
   return Array.from(document.querySelectorAll<HTMLElement>(selector))
@@ -177,8 +178,8 @@ export function onContentChange(callback: () => void): void {
     for (const mutation of mutations) {
       for (const node of mutation.addedNodes) {
         if (node instanceof HTMLElement
-          && (node.matches(`article.markdown-body, ${GITLAB_MARKDOWN}`)
-            || node.querySelector(`article.markdown-body, ${GITLAB_MARKDOWN}`))) {
+          && (node.matches(MARKDOWN_TARGET_ADDED)
+            || node.querySelector(MARKDOWN_TARGET_ADDED))) {
           schedule()
           return
         }
