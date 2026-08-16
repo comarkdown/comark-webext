@@ -6,7 +6,7 @@ import { comarkEnabled } from '~/logic/storage'
   <main class="w-[300px] px-4 py-5 text-center text-gray-700">
     <Logo />
     <h1 class="mt-2 text-lg font-semibold">
-      Comark for GitHub
+      Comark for Git Hosting
     </h1>
     <p class="mt-1 text-sm opacity-60">
       Renders Comark components and attributes nicely on GitHub, GitLab, and other Git hosts.

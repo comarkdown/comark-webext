@@ -1,6 +1,6 @@
 {
   "name": "comark-webext",
-  "displayName": "Comark for GitHub",
+  "displayName": "Comark for Git Hosting",
   "version": "0.0.4",
   "private": true,
   "packageManager": "pnpm@9.7.1",
