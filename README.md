@@ -3,6 +3,7 @@
 # Comark for GitHub
 
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/mbbnjnblfplfjkakjfjkhhefhcdnhcin?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/comark-for-github/mbbnjnblfplfjkakjfjkhhefhcdnhcin)
+[![Firefox Add-ons](https://img.shields.io/amo/v/comark-for-github?label=Firefox%20Add-ons&logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/en-GB/firefox/addon/comark-for-github/)
 
 A browser extension (Chrome, Firefox) that fixes GitHub's rendering of Markdown files written with [Comark](https://comark.dev) syntax — components, attributes, spans and bindings.
 
@@ -22,13 +23,15 @@ Alternatively, grab the latest pack from the [releases page](https://github.com/
 
 ### Firefox
 
-> Firefox listing is pending approval on addons.mozilla.org. In the meantime, load it manually:
+Install directly from **[Firefox Add-ons](https://addons.mozilla.org/en-GB/firefox/addon/comark-for-github/)**.
+
+Alternatively, load the latest release manually:
 
 1. Download [`comark-for-github.xpi`](https://github.com/comarkdown/comark-webext/releases/latest/download/comark-for-github.xpi).
 2. Open `about:debugging#/runtime/this-firefox`.
 3. Click **Load Temporary Add-on** and select the `.xpi` file.
 
-> Firefox removes temporary add-ons on restart. A signed listing on addons.mozilla.org will remove this limitation.
+> Firefox removes temporary add-ons on restart.
 
 Then open a Comark-flavored Markdown file on GitHub, for example [`docs/content/index.md`](https://github.com/comarkdown/comark/blob/main/docs/content/index.md) from the comark repo.
 
