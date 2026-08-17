@@ -3,7 +3,7 @@
 # Comark for GitHub & GitLab
 
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/mbbnjnblfplfjkakjfjkhhefhcdnhcin?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/comark-for-github/mbbnjnblfplfjkakjfjkhhefhcdnhcin)
-[![Firefox Add-ons](https://img.shields.io/amo/v/comark-for-github?label=Firefox%20Add-ons&logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/fr/firefox/addon/comark-for-github-gitlab/)
+[![Firefox Add-ons](https://img.shields.io/amo/v/comark-for-github-gitlab?label=Firefox%20Add-ons&logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/fr/firefox/addon/comark-for-github-gitlab/)
 
 A browser extension (Chrome, Firefox) that fixes GitHub and GitLab's rendering of Markdown files written with [Comark](https://comark.dev) syntax — components, attributes, spans and bindings.
 
