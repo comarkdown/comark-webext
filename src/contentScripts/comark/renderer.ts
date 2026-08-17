@@ -20,8 +20,8 @@ import rangi from '@comark/html/plugins/rangi'
 import security from '@comark/html/plugins/security'
 import taskList from '@comark/html/plugins/task-list'
 import { renderMarkdown } from 'comark/render'
-import { github } from 'rangi/themes'
 import { escapeHtml, highlightBlock } from './highlight'
+import { themeForHost } from './theme'
 
 /** Tags the markdown pipeline itself can produce: never comark components. */
 const NATIVE_TAGS = new Set([
@@ -185,9 +185,9 @@ const renderComarkHtmlImpl = createHtmlRenderer({
     taskList(),
     components(),
     security({ blockedTags: BLOCKED_TAGS }),
-    // GitHub's prettylights palette as a light/dark pair: tokens carry the
-    // light color inline plus a `--shiki-dark` var that style.css switches on
-    rangi({ theme: github }),
+    // host-matched palette as a light/dark pair: tokens carry the light
+    // color inline plus a `--shiki-dark` var that style.css switches on
+    rangi({ theme: themeForHost(location.hostname) }),
   ],
   components: {
     comarkSpan: {

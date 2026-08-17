@@ -1,10 +1,10 @@
 {
   "name": "comark-webext",
-  "displayName": "Comark for GitHub",
+  "displayName": "Comark for GitHub & GitLab",
   "version": "0.0.4",
   "private": true,
   "packageManager": "pnpm@9.7.1",
-  "description": "Renders Comark (Markdown components & attributes) syntax nicely on GitHub",
+  "description": "Renders Comark (Markdown components & attributes) syntax nicely on GitHub and GitLab",
   "license": "MIT",
   "scripts": {
     "dev": "npm run clear && cross-env NODE_ENV=development run-p dev:*",

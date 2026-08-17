@@ -1,5 +1,5 @@
 /**
- * DOM transforms on GitHub's rendered markdown.
+ * DOM transforms on rendered Markdown from supported Git hosts.
  *
  * Comark pages get a full re-render: the raw source goes through the real
  * comark parser (see `renderer.ts`) and the result replaces GitHub's lossy
@@ -16,7 +16,7 @@ import { highlightInline, highlightTokens } from './highlight'
 import { renderComarkHtml } from './renderer'
 import { scan } from './scanner'
 
-/** GitHub wrappers of fenced code. */
+/** Code-fence wrappers used by supported Git hosts. */
 const CODE_CONTAINER = 'pre, .highlight, .snippet-clipboard-content'
 
 const INLINE_HOSTS = new Set(['STRONG', 'EM', 'A', 'CODE', 'IMG', 'DEL', 'B', 'I', 'SUP', 'SUB', 'SPAN'])
@@ -113,19 +113,21 @@ const FENCE_LANGS = new Set(['mdc', 'comark'])
 
 /**
  * Highlights fenced code blocks tagged with a comark language (` ```mdc `).
- * GitHub leaves unknown languages as plain text, and the source is right in
- * the DOM, so this needs no raw markdown fetch. GitHub's own `<pre>` shell
- * and copy button stay in place.
+ * Git hosts leave unknown languages as plain text, and the source is right in
+ * the DOM, so this needs no raw markdown fetch. The host's `<pre>` shell and
+ * copy button stay in place.
  */
 export function transformFences(article: HTMLElement): number {
   let count = 0
-  for (const pre of article.querySelectorAll<HTMLElement>('pre[lang]')) {
+  for (const pre of article.querySelectorAll<HTMLElement>('pre')) {
+    const code = pre.querySelector('code')
     const lang = pre.getAttribute('lang')?.toLowerCase()
+      ?? pre.dataset.canonicalLang?.toLowerCase()
+      ?? Array.from(code?.classList ?? []).find(name => name.startsWith('language-'))?.slice('language-'.length)?.toLowerCase()
     if (!lang || !FENCE_LANGS.has(lang))
       continue
     if (pre.closest('[data-comark]'))
       continue
-    const code = pre.querySelector('code')
     if (!code)
       continue
     code.replaceChildren(...parseHtml(highlightTokens(code.textContent ?? '')))
@@ -139,16 +141,20 @@ const RELATIVE_URL = /^(?![a-z][\w+.-]*:|\/|#)/i
 
 /**
  * Resolves relative image and link URLs against the document's location in
- * the repository. GitHub did this in its own rendering; a re-render must
- * redo it. `rawUrl` is the raw.githubusercontent.com URL of the source file.
+ * the repository. The host did this in its own rendering; a re-render must
+ * redo it.
  */
 export function rewriteRelativeUrls(article: HTMLElement, rawUrl: string): void {
   const rawBase = rawUrl.slice(0, rawUrl.lastIndexOf('/') + 1)
-  // raw.githubusercontent.com/{owner}/{repo}/{ref-and-dir}/ -> github blob dir
-  const blobBase = rawBase.replace(
+  // raw.githubusercontent.com/{owner}/{repo}/{ref-and-dir}/ -> GitHub blob dir
+  const githubBlobBase = rawBase.replace(
     /^https:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\//,
     'https://github.com/$1/$2/blob/',
   )
+  // gitlab.com/{namespace}/{project}/-/raw/{ref-and-dir}/ -> GitLab blob dir
+  const blobBase = githubBlobBase === rawBase
+    ? rawBase.replace(/\/-\/raw\//, '/-/blob/')
+    : githubBlobBase
 
   for (const img of article.querySelectorAll<HTMLImageElement>('img[src]')) {
     const src = img.getAttribute('src') ?? ''
@@ -162,15 +168,24 @@ export function rewriteRelativeUrls(article: HTMLElement, rawUrl: string): void 
   }
 }
 
+const FRONTMATTER = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/
+
 /**
- * Replaces GitHub's rendering of one markdown article with the comark
- * rendering of its raw source. GitHub's frontmatter table is kept. Throws on
- * render failure: the caller keeps GitHub's DOM and falls back to fences.
+ * Replaces a host's rendering of one markdown article with the comark
+ * rendering of its raw source. GitHub's frontmatter table is kept; on hosts
+ * without one (GitLab shows frontmatter as a code block that a re-render
+ * would erase), the frontmatter becomes a highlighted yaml fence. Throws on
+ * render failure: the caller keeps the host's DOM and falls back to fences.
  */
 export async function renderArticle(article: HTMLElement, source: string, rawUrl?: string): Promise<number> {
-  const html = await renderComarkHtml(source)
-
   const frontmatterTable = article.querySelector('markdown-accessiblity-table')
+
+  let input = source
+  const frontmatter = frontmatterTable ? null : source.match(FRONTMATTER)
+  if (frontmatter)
+    input = `\`\`\`yaml\n${frontmatter[1]}\n\`\`\`\n\n${source.slice(frontmatter[0].length)}`
+
+  const html = await renderComarkHtml(input)
   const replacement = parseHtml(html)
 
   article.replaceChildren()
