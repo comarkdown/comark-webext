@@ -1,4 +1,4 @@
-/* Comark for Git Hosting — injected styles for GitHub and GitLab. */
+/* Comark for GitHub & GitLab — injected styles. */
 
 .comark-block {
   position: relative;
@@ -46,58 +46,126 @@ code.shj[data-comark='inline'] {
   border-radius: 6px;
 }
 
-/* token colors — GitHub prettylights palette */
+/* GitLab styles bare `code` with inline-code background and padding; GitHub
+   resets it via `.markdown-body pre code`. Reset it ourselves for `code`
+   inside our highlighted fences, on both hosts. `!important` beats GitLab's
+   high-specificity dark-mode rule (`:root.gl-dark .md :not(pre.code) > code`). */
+pre.shj code,
+pre[data-comark='fence'] code {
+  padding: 0 !important;
+  color: inherit !important;
+  background-color: transparent !important;
+  border-radius: 0 !important;
+}
+
+/* token colors — GitHub prettylights palette by default; a host section
+   below can retheme every token through the --comark-syn-* variables */
 [data-comark] .shj-oper {
-  color: var(--color-prettylights-syntax-keyword, #cf222e);
+  color: var(--comark-syn-oper, var(--color-prettylights-syntax-keyword, #cf222e));
 }
 
 [data-comark] .shj-class {
-  color: var(--color-prettylights-syntax-entity, #6639ba);
+  color: var(--comark-syn-class, var(--color-prettylights-syntax-entity, #6639ba));
 }
 
 [data-comark] .shj-var {
-  color: var(--color-prettylights-syntax-constant, #0550ae);
+  color: var(--comark-syn-var, var(--color-prettylights-syntax-constant, #0550ae));
 }
 
 [data-comark] .shj-str {
-  color: var(--color-prettylights-syntax-string, #0a3069);
+  color: var(--comark-syn-str, var(--color-prettylights-syntax-string, #0a3069));
 }
 
 [data-comark] .shj-kwd {
-  color: var(--color-prettylights-syntax-keyword, #cf222e);
+  color: var(--comark-syn-kwd, var(--color-prettylights-syntax-keyword, #cf222e));
 }
 
 [data-comark] .shj-section {
-  color: var(--color-prettylights-syntax-markup-heading, #0550ae);
+  color: var(--comark-syn-section, var(--color-prettylights-syntax-markup-heading, #0550ae));
   font-weight: 600;
 }
 
 [data-comark] .shj-cmnt {
-  color: var(--color-prettylights-syntax-comment, #59636e);
+  color: var(--comark-syn-cmnt, var(--color-prettylights-syntax-comment, #59636e));
 }
 
 [data-comark] .shj-bool {
-  color: var(--color-prettylights-syntax-constant, #0550ae);
+  color: var(--comark-syn-bool, var(--color-prettylights-syntax-constant, #0550ae));
 }
 
 [data-comark] .shj-num {
-  color: var(--color-prettylights-syntax-constant, #0550ae);
+  color: var(--comark-syn-num, var(--color-prettylights-syntax-constant, #0550ae));
 }
 
 [data-comark] .shj-esc {
-  color: var(--color-prettylights-syntax-string-regexp, #116329);
+  color: var(--comark-syn-esc, var(--color-prettylights-syntax-string-regexp, #116329));
 }
 
 [data-comark] .shj-func {
-  color: var(--color-prettylights-syntax-entity, #6639ba);
+  color: var(--comark-syn-func, var(--color-prettylights-syntax-entity, #6639ba));
 }
 
 [data-comark] .shj-insert {
-  color: var(--color-prettylights-syntax-markup-inserted-text, #116329);
+  color: var(--comark-syn-insert, var(--color-prettylights-syntax-markup-inserted-text, #116329));
 }
 
 [data-comark] .shj-deleted {
-  color: var(--color-prettylights-syntax-markup-deleted-text, #82071e);
+  color: var(--comark-syn-deleted, var(--color-prettylights-syntax-markup-deleted-text, #82071e));
+}
+
+/* GitLab light: the "White" syntax theme (pygments-github style).
+   Keep in sync with theme.ts, which themes the rangi fences the same way. */
+.md [data-comark] {
+  --comark-syn-kwd: #000000;
+  --comark-syn-oper: #000000;
+  --comark-syn-class: #445588;
+  --comark-syn-var: #008080;
+  --comark-syn-str: #dd1144;
+  --comark-syn-esc: #dd1144;
+  --comark-syn-section: #800080;
+  --comark-syn-cmnt: #999988;
+  --comark-syn-bool: #0086b3;
+  --comark-syn-num: #009999;
+  --comark-syn-func: #990000;
+  --comark-syn-insert: #009926;
+  --comark-syn-deleted: #aa0000;
+}
+
+/* GitLab dark: the "Dark" syntax theme (Tomorrow Night) */
+html.gl-dark .md [data-comark],
+[data-color-scheme='dark'] .md [data-comark] {
+  --comark-syn-kwd: #b294bb;
+  --comark-syn-oper: #8abeb7;
+  --comark-syn-class: #f0c674;
+  --comark-syn-var: #81a2be;
+  --comark-syn-str: #b5bd68;
+  --comark-syn-esc: #de935f;
+  --comark-syn-section: #8abeb7;
+  --comark-syn-cmnt: #969896;
+  --comark-syn-bool: #b294bb;
+  --comark-syn-num: #de935f;
+  --comark-syn-func: #81a2be;
+  --comark-syn-insert: #b5bd68;
+  --comark-syn-deleted: #cc6666;
+}
+
+@media (prefers-color-scheme: dark) {
+  html.gl-system .md [data-comark],
+  [data-color-scheme='auto'] .md [data-comark] {
+    --comark-syn-kwd: #b294bb;
+    --comark-syn-oper: #8abeb7;
+    --comark-syn-class: #f0c674;
+    --comark-syn-var: #81a2be;
+    --comark-syn-str: #b5bd68;
+    --comark-syn-esc: #de935f;
+    --comark-syn-section: #8abeb7;
+    --comark-syn-cmnt: #969896;
+    --comark-syn-bool: #b294bb;
+    --comark-syn-num: #de935f;
+    --comark-syn-func: #81a2be;
+    --comark-syn-insert: #b5bd68;
+    --comark-syn-deleted: #cc6666;
+  }
 }
 
 /* rangi-plugin fences (comark re-render): tokens carry inline light colors
