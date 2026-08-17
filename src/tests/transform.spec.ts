@@ -43,6 +43,24 @@ describe('renderArticle: landing page fixture (the page that broke v1)', () => {
     expect(table).toBeTruthy()
     await renderArticle(article, landingSource)
     expect(article.querySelector('markdown-accessiblity-table')).toBe(table)
+    // no duplicated yaml fence when the host table is kept
+    const fences = Array.from(article.querySelectorAll('pre code'))
+    expect(fences.some(code => code.textContent?.includes('navigation: false'))).toBe(false)
+  })
+
+  it('renders frontmatter as a yaml fence when the host has no table (GitLab)', async () => {
+    // GitLab article: no markdown-accessiblity-table element
+    const article = mountEmpty()
+    await renderArticle(article, landingSource)
+
+    const fence = article.querySelector('pre code')!
+    expect(fence.textContent).toContain('navigation: false')
+    expect(fence.textContent).toContain('ogImage: /social-card.jpg')
+    // frontmatter delimiters are not part of the fence
+    expect(fence.textContent).not.toContain('---')
+    // yaml is highlighted, and the body still renders after it
+    expect(fence.querySelector('span[style]')).toBeTruthy()
+    expect(article.querySelectorAll('[data-comark="block"]')).toHaveLength(11)
   })
 
   it('reconstructs component sources with their YAML props', async () => {
@@ -231,13 +249,15 @@ describe('transformFences (non-comark pages)', () => {
 })
 
 describe('findTargets: GitLab', () => {
+  const origin = location.origin
+
   it('finds Markdown blob previews and resolves the GitLab raw URL', () => {
     window.history.pushState({}, '', '/group/project/-/blob/main/docs/example.md')
     document.body.innerHTML = '<div class="file-content js-markup-content md"></div>'
 
     const [target] = findGitLabTargets()
     expect(target.article.classList).toContain('md')
-    expect(target.rawUrls).toEqual(['http://localhost/group/project/-/raw/main/docs/example.md'])
+    expect(target.rawUrls).toEqual([`${origin}/group/project/-/raw/main/docs/example.md`])
     target.article.setAttribute(PROCESSED_ATTR, '1')
     expect(findGitLabTargets()).toEqual([])
   })
@@ -247,6 +267,20 @@ describe('findTargets: GitLab', () => {
     document.body.innerHTML = '<div class="readme-holder"><a href="/group/subgroup/project/-/blob/main/README.md">README.md</a><div class="file-content js-markup-content md"></div></div>'
 
     const [target] = findGitLabTargets()
-    expect(target.rawUrls[0]).toBe('http://localhost/group/subgroup/project/-/raw/main/README.md')
+    expect(target.rawUrls[0]).toBe(`${origin}/group/subgroup/project/-/raw/main/README.md`)
+    // fallback guesses stay on the project path, at HEAD
+    expect(target.rawUrls[1]).toBe(`${origin}/group/subgroup/project/-/raw/HEAD/README.md`)
+  })
+
+  it('keeps the ref and directory for tree-page READMEs', () => {
+    window.history.pushState({}, '', '/group/project/-/tree/v2/docs')
+    document.body.innerHTML = '<div class="readme-holder"><div class="file-content js-markup-content md"></div></div>'
+
+    const [target] = findGitLabTargets()
+    expect(target.rawUrls).toEqual([
+      `${origin}/group/project/-/raw/v2/docs/README.md`,
+      `${origin}/group/project/-/raw/v2/docs/readme.md`,
+      `${origin}/group/project/-/raw/v2/docs/README.mdc`,
+    ])
   })
 })
