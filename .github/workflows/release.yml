@@ -76,6 +76,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release create "${{ steps.tag.outputs.value }}" artifacts/* \
-            --title "${{ steps.tag.outputs.value }} — Comark for GitHub & GitLab" \
+            --title "${{ steps.tag.outputs.value }}" \
             --generate-notes \
             --prerelease
