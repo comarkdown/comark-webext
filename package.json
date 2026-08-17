@@ -1,7 +1,7 @@
 {
   "name": "comark-webext",
   "displayName": "Comark for GitHub",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "packageManager": "pnpm@9.7.1",
   "description": "Renders Comark (Markdown components & attributes) syntax nicely on GitHub",
