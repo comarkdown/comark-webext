@@ -1,6 +1,6 @@
-![Comark for Git Hosting screenshot](./assets/banner.png)
+![Comark for GitHub & GitLab screenshot](./assets/banner.png)
 
-# Comark for Git Hosting
+# Comark for GitHub & GitLab
 
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/mbbnjnblfplfjkakjfjkhhefhcdnhcin?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/comark-for-github/mbbnjnblfplfjkakjfjkhhefhcdnhcin)
 [![Firefox Add-ons](https://img.shields.io/amo/v/comark-for-github?label=Firefox%20Add-ons&logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/en-GB/firefox/addon/comark-for-github/)
@@ -63,7 +63,7 @@ Everything follows GitHub and GitLab light, dark, and auto color modes.
 ### Safety
 
 - The rendered HTML goes through Comark's `security` plugin: `<script>`/`<iframe>`-style tags are dropped, event-handler attributes are stripped, and `javascript:` URLs are not rendered.
-- If rendering fails for any reason, GitHub's original rendering is kept.
+- If rendering fails for any reason, the host's original rendering is kept.
 - A popup toggle enables/disables the extension (toggling reloads open GitHub and GitLab tabs).
 
 ### Known trade-offs
