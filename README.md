@@ -3,7 +3,7 @@
 # Comark for GitHub & GitLab
 
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/mbbnjnblfplfjkakjfjkhhefhcdnhcin?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/comark-for-github/mbbnjnblfplfjkakjfjkhhefhcdnhcin)
-[![Firefox Add-ons](https://img.shields.io/amo/v/comark-for-github?label=Firefox%20Add-ons&logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/en-GB/firefox/addon/comark-for-github/)
+[![Firefox Add-ons](https://img.shields.io/amo/v/comark-for-github?label=Firefox%20Add-ons&logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/fr/firefox/addon/comark-for-github-gitlab/)
 
 A browser extension (Chrome, Firefox) that fixes GitHub and GitLab's rendering of Markdown files written with [Comark](https://comark.dev) syntax — components, attributes, spans and bindings.
 
@@ -23,7 +23,7 @@ Alternatively, grab the latest pack from the [releases page](https://github.com/
 
 ### Firefox
 
-Install directly from **[Firefox Add-ons](https://addons.mozilla.org/en-GB/firefox/addon/comark-for-github/)**.
+Install directly from **[Firefox Add-ons](https://addons.mozilla.org/fr/firefox/addon/comark-for-github-gitlab/)**.
 
 Alternatively, load the latest release manually:
 
@@ -135,7 +135,7 @@ The `vX.Y.Z` tag triggers `.github/workflows/publish.yml`, which:
 1. runs all checks and builds both flavors
 2. publishes a GitHub release with `comark-for-github.zip` (Chrome) and `comark-for-github.xpi` (Firefox)
 3. uploads the zip to the [Chrome Web Store](https://chromewebstore.google.com/detail/comark-for-github/mbbnjnblfplfjkakjfjkhhefhcdnhcin) and publishes it for review
-4. submits the Firefox build (with its source archive) to [Firefox Add-ons](https://addons.mozilla.org/en-GB/firefox/addon/comark-for-github/) for review
+4. submits the Firefox build (with its source archive) to [Firefox Add-ons](https://addons.mozilla.org/fr/firefox/addon/comark-for-github-gitlab/) for review
 
 Required repository secrets: `CWS_EXTENSION_ID`, `CWS_CLIENT_ID`, `CWS_CLIENT_SECRET`, `CWS_REFRESH_TOKEN` (Chrome Web Store API) and `AMO_JWT_ISSUER`, `AMO_JWT_SECRET` (AMO API).
 
