@@ -34,7 +34,9 @@ function githubRawUrl(owner: string, repo: string, refAndPath: string): string {
 
 /** Finds a README blob link near the rendered article, to get its exact path. */
 function readmePathFromDom(article: HTMLElement, marker: string): string | null {
-  const container = article.closest('[data-testid="readme"], .readme-holder, .Box, section, div')
+  // start from the parent: GitLab articles are plain divs, so a `closest`
+  // from the article itself would match the article and miss sibling links
+  const container = article.parentElement?.closest('[data-testid="readme"], .readme-holder, .Box, section, div')
   const scope = container ?? document
   for (const link of scope.querySelectorAll<HTMLAnchorElement>(`a[href*="${marker}"]`)) {
     const href = link.getAttribute('href') ?? ''
@@ -94,11 +96,19 @@ export function findGitLabTargets(): PageTarget[] {
     return articles.map(article => ({ article, rawUrls: [gitLabRawUrl(projectPath, refAndPath)] }))
   }
 
-  if (markerIndex !== -1 && segments[markerIndex + 1] !== 'tree')
+  const isTree = markerIndex !== -1
+  if (isTree && segments[markerIndex + 1] !== 'tree')
     return []
 
-  // A project root may be nested under groups. A README link supplies the
-  // authoritative project path, ref, and filename; HEAD is the fallback.
+  // Project root (segments = project path) or tree page
+  // (/{project}/-/tree/{ref}/{dir}). A project root may be nested under
+  // groups. A README link supplies the authoritative project path, ref, and
+  // filename; the fallback guesses common names.
+  const projectPath = encodedPath(isTree ? segments.slice(0, markerIndex) : segments)
+  const refAndDir = isTree ? encodedPath(segments.slice(markerIndex + 2)) : 'HEAD'
+  if (!refAndDir)
+    return []
+
   return articles.map((article) => {
     const rawUrls: string[] = []
     const domPath = readmePathFromDom(article, '/-/blob/')
@@ -106,9 +116,8 @@ export function findGitLabTargets(): PageTarget[] {
     if (match)
       rawUrls.push(gitLabRawUrl(match[1], match[2]))
 
-    const projectPath = encodedPath(segments)
     for (const name of ['README.md', 'readme.md', 'README.mdc'])
-      rawUrls.push(gitLabRawUrl(projectPath, `HEAD/${name}`))
+      rawUrls.push(gitLabRawUrl(projectPath, `${refAndDir}/${name}`))
     return { article, rawUrls }
   })
 }
@@ -178,8 +187,7 @@ export function onContentChange(callback: () => void): void {
     for (const mutation of mutations) {
       for (const node of mutation.addedNodes) {
         if (node instanceof HTMLElement
-          && (node.matches(MARKDOWN_TARGET_ADDED)
-            || node.querySelector(MARKDOWN_TARGET_ADDED))) {
+          && (node.matches(MARKDOWN_TARGET_ADDED) || node.querySelector(MARKDOWN_TARGET_ADDED))) {
           schedule()
           return
         }
