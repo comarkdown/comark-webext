@@ -168,15 +168,24 @@ export function rewriteRelativeUrls(article: HTMLElement, rawUrl: string): void 
   }
 }
 
+const FRONTMATTER = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/
+
 /**
  * Replaces a host's rendering of one markdown article with the comark
- * rendering of its raw source. A host frontmatter table is kept. Throws on
+ * rendering of its raw source. GitHub's frontmatter table is kept; on hosts
+ * without one (GitLab shows frontmatter as a code block that a re-render
+ * would erase), the frontmatter becomes a highlighted yaml fence. Throws on
  * render failure: the caller keeps the host's DOM and falls back to fences.
  */
 export async function renderArticle(article: HTMLElement, source: string, rawUrl?: string): Promise<number> {
-  const html = await renderComarkHtml(source)
-
   const frontmatterTable = article.querySelector('markdown-accessiblity-table')
+
+  let input = source
+  const frontmatter = frontmatterTable ? null : source.match(FRONTMATTER)
+  if (frontmatter)
+    input = `\`\`\`yaml\n${frontmatter[1]}\n\`\`\`\n\n${source.slice(frontmatter[0].length)}`
+
+  const html = await renderComarkHtml(input)
   const replacement = parseHtml(html)
 
   article.replaceChildren()
