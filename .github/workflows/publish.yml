@@ -1,0 +1,107 @@
+name: Publish
+
+on:
+  push:
+    tags: ['v*']
+  # dispatched by version.yml on the new tag (tags pushed with GITHUB_TOKEN
+  # do not trigger `push` workflows); requires write access to run
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Guard — ref must be the tag of the package version
+        run: |
+          if [ "${GITHUB_REF_TYPE}" != "tag" ]; then
+            echo "::error::Publish must run on a v* tag, got ${GITHUB_REF}"
+            exit 1
+          fi
+          VERSION=$(node -p "require('./package.json').version")
+          if [ "${GITHUB_REF_NAME}" != "v${VERSION}" ]; then
+            echo "::error::Tag ${GITHUB_REF_NAME} does not match package.json version ${VERSION}"
+            exit 1
+          fi
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      # build first: it generates src/auto-imports.d.ts, which typecheck needs
+      - name: Build
+        run: pnpm build
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Test
+        run: pnpm vitest run
+
+      - name: Pack zip
+        run: |
+          pnpm pack:zip
+          mkdir -p artifacts
+          mv comark-for-github.zip artifacts/
+
+      # the xpi must come from the Firefox-flavored build
+      # (gecko id, background scripts instead of a service worker).
+      # NOTE: `pnpm build` runs `clear`, which deletes ./comark-for-github.*
+      # packs — that is why the chrome pack is stashed in artifacts/ first.
+      - name: Build (Firefox)
+        run: EXTENSION=firefox pnpm build
+
+      - name: Pack xpi
+        run: |
+          pnpm pack:xpi
+          mv comark-for-github.xpi artifacts/
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" artifacts/* \
+            --title "${GITHUB_REF_NAME} — Comark for GitHub" \
+            --generate-notes \
+            --latest
+
+      - name: Publish to Chrome Web Store
+        env:
+          EXTENSION_ID: ${{ secrets.CWS_EXTENSION_ID }}
+          CLIENT_ID: ${{ secrets.CWS_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CWS_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.CWS_REFRESH_TOKEN }}
+        run: pnpm dlx chrome-webstore-upload-cli@3 upload --source artifacts/comark-for-github.zip --auto-publish
+
+      # reviewers require human-readable source for minified bundles
+      - name: Create source archive for AMO
+        run: git archive --format=zip -o source.zip HEAD
+
+      # ./extension holds the Firefox build at this point.
+      # --approval-timeout 0 submits for review and returns; the listing
+      # updates once Mozilla approves.
+      - name: Submit to Firefox Add-ons
+        env:
+          AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
+          AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+        run: |
+          pnpm web-ext sign \
+            --source-dir ./extension \
+            --channel listed \
+            --api-key "$AMO_JWT_ISSUER" \
+            --api-secret "$AMO_JWT_SECRET" \
+            --upload-source-code source.zip \
+            --approval-timeout 0

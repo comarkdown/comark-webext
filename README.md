@@ -123,7 +123,25 @@ Then pack the files under `extension/`: `pnpm pack:zip`, `pnpm pack:crx` or `pnp
 
 ## Releases
 
-Every push to `main` runs the checks, builds the extension and publishes a [GitHub release](https://github.com/comarkdown/comark-webext/releases) with `comark-for-github.zip` (Chrome build) and `comark-for-github.xpi` (Firefox build) — see `.github/workflows/release.yml`. The tag comes from the `package.json` version; pushes without a version bump get a `-build.N` suffix.
+### Store releases (patch / minor / major)
+
+Two ways to cut a release:
+
+- **Locally**: run `pnpm release`, pick the bump. [bumpp](https://github.com/antfu-collective/bumpp) updates `package.json`, commits `chore: release vX.Y.Z`, tags and pushes.
+- **From the GitHub UI** (works on mobile): Actions → **Version** → Run workflow → pick `patch`/`minor`/`major`. Requires write access.
+
+The `vX.Y.Z` tag triggers `.github/workflows/publish.yml`, which:
+
+1. runs all checks and builds both flavors
+2. publishes a GitHub release with `comark-for-github.zip` (Chrome) and `comark-for-github.xpi` (Firefox)
+3. uploads the zip to the [Chrome Web Store](https://chromewebstore.google.com/detail/comark-for-github/mbbnjnblfplfjkakjfjkhhefhcdnhcin) and publishes it for review
+4. submits the Firefox build (with its source archive) to [Firefox Add-ons](https://addons.mozilla.org/en-GB/firefox/addon/comark-for-github/) for review
+
+Required repository secrets: `CWS_EXTENSION_ID`, `CWS_CLIENT_ID`, `CWS_CLIENT_SECRET`, `CWS_REFRESH_TOKEN` (Chrome Web Store API) and `AMO_JWT_ISSUER`, `AMO_JWT_SECRET` (AMO API).
+
+### CI prereleases
+
+Every other push to `main` runs the checks and publishes a `vX.Y.Z-build.N` **prerelease** — see `.github/workflows/release.yml`. `releases/latest` always points to the last store-grade release.
 
 No `.crx` is published: Chrome on Windows/macOS rejects crx files that do not come from the Chrome Web Store (`CRX_REQUIRED_PROOF_MISSING`). Install from the [Chrome Web Store](https://chromewebstore.google.com/detail/comark-for-github/mbbnjnblfplfjkakjfjkhhefhcdnhcin) or use the zip with **Load unpacked**.
 

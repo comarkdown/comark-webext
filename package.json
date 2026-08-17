@@ -29,6 +29,7 @@
     "test": "vitest test",
     "test:e2e": "playwright test",
     "postinstall": "simple-git-hooks",
+    "release": "bumpp",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
@@ -46,6 +47,7 @@
     "@vue/compiler-sfc": "^3.4.38",
     "@vue/test-utils": "^2.4.6",
     "@vueuse/core": "^11.0.1",
+    "bumpp": "^12.2.1",
     "chokidar": "^3.6.0",
     "comark": "https://pkg.pr.new/comark@3fb5da8",
     "cross-env": "^7.0.3",

@@ -1,5 +1,7 @@
 name: Release
 
+# CI + prerelease builds for every push to main. Store-grade releases are
+# handled by publish.yml (tag push from `pnpm release`, or version.yml).
 on:
   push:
     branches: [main]
@@ -11,6 +13,8 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    # a release commit gets its build from publish.yml on the tag instead
+    if: 'github.event_name != ''push'' || !startsWith(github.event.head_commit.message, ''chore: release v'')'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -65,16 +69,13 @@ jobs:
         id: tag
         run: |
           VERSION=$(node -p "require('./package.json').version")
-          if git rev-parse -q --verify "refs/tags/v$VERSION" > /dev/null; then
-            echo "value=v$VERSION-build.$GITHUB_RUN_NUMBER" >> "$GITHUB_OUTPUT"
-          else
-            echo "value=v$VERSION" >> "$GITHUB_OUTPUT"
-          fi
+          echo "value=v$VERSION-build.$GITHUB_RUN_NUMBER" >> "$GITHUB_OUTPUT"
 
-      - name: Create release
+      - name: Create prerelease
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release create "${{ steps.tag.outputs.value }}" artifacts/* \
             --title "${{ steps.tag.outputs.value }} — Comark for GitHub" \
-            --generate-notes
+            --generate-notes \
+            --prerelease

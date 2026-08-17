@@ -1,0 +1,55 @@
+name: Version
+
+# Releases from the GitHub UI (or mobile): pick a bump, this workflow bumps
+# package.json, commits, tags, pushes, then dispatches the Publish workflow
+# on the new tag. Only users with write access can run it.
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Version bump
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump version
+        run: pnpm bumpp ${{ inputs.bump }} --yes
+
+      # tags pushed with GITHUB_TOKEN do not trigger `push` workflows,
+      # so the Publish workflow is dispatched explicitly on the new tag
+      - name: Dispatch publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          gh workflow run publish.yml --ref "refs/tags/v${VERSION}"
