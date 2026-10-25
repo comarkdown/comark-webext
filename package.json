@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.27.0",
-    "@comark/html": "https://pkg.pr.new/@comark/html@3fb5da8",
+    "@comark/html": "^0.8.1",
     "@ffflorian/jszip-cli": "^3.8.5",
     "@iconify/json": "^2.2.239",
     "@playwright/test": "^1.46.1",
@@ -49,7 +49,7 @@
     "@vueuse/core": "^11.0.1",
     "bumpp": "^12.2.1",
     "chokidar": "^3.6.0",
-    "comark": "https://pkg.pr.new/comark@3fb5da8",
+    "comark": "^0.8.1",
     "cross-env": "^7.0.3",
     "crx": "^5.0.1",
     "eslint": "^9.9.0",
@@ -74,11 +74,6 @@
     "web-ext": "^8.2.0",
     "webext-bridge": "^6.0.1",
     "webextension-polyfill": "^0.12.0"
-  },
-  "pnpm": {
-    "overrides": {
-      "comark": "https://pkg.pr.new/comark@3fb5da8"
-    }
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"

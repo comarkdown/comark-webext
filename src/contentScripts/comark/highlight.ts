@@ -1,4 +1,4 @@
-import comarkLanguage from 'comark/plugins/rangi/language'
+import comarkLanguage from 'comark/plugins/rangi/language-comark'
 import { codeToHtml, tokenize } from 'rangi'
 
 const languages = { comark: comarkLanguage }

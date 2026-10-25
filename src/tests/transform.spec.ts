@@ -137,6 +137,14 @@ describe('renderArticle: comark syntax display', () => {
     expect(article.querySelector('a')!.getAttribute('href')).toBe('https://a.dev')
     expect(article.querySelector('input[type="checkbox"]')).toBeTruthy()
   })
+
+  it('resolves link reference definitions without rendering them', async () => {
+    const article = mountEmpty()
+    await renderArticle(article, '::note\nHi\n::\n\n[![npm][badge-src]][badge-href]\n\n[badge-src]: https://img.dev/b.svg\n[badge-href]: https://npm.dev\n')
+    expect(article.querySelectorAll('[data-comark="block"]')).toHaveLength(1)
+    expect(article.querySelector('a')!.getAttribute('href')).toBe('https://npm.dev')
+    expect(article.querySelector('img')!.getAttribute('src')).toBe('https://img.dev/b.svg')
+  })
 })
 
 describe('renderArticle: security', () => {

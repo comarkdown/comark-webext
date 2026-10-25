@@ -4,7 +4,7 @@
  * Finds the comark-specific constructs in a raw markdown source: block
  * components, inline components, spans and attribute groups. The regex
  * building blocks mirror the comark rangi grammar
- * (`comark/plugins/rangi/language`).
+ * (`comark/plugins/rangi/language-comark`).
  *
  * The scanner works on the raw source because GitHub's rendered DOM is lossy:
  * the markdown inside a component body is already converted to HTML there.
@@ -22,6 +22,7 @@ const SLOT = String.raw`\[[^\]]*\]`
 const RE_BLOCK_OPEN = new RegExp(`^\\s*(:{2,})(${NAME})`, 'i')
 const RE_BLOCK_CLOSE = /^\s*:{2,}\s*$/
 const RE_FENCE_MARKER = /^ {0,3}(`{3,}|~{3,})/
+const RE_QUOTE_MARKER = /^ {0,3}>[ \t]?/
 const RE_FRONTMATTER_DELIMITER = /^---\s*$/
 
 const RE_INLINE_COMPONENT = new RegExp(
@@ -132,7 +133,7 @@ export function scan(source: string): ScanResult {
     }
   }
 
-  let fence: { char: string, length: number } | null = null
+  let fence: { char: string, length: number, quoteDepth: number } | null = null
   let block: {
     name: string
     openingLine: string
@@ -144,23 +145,37 @@ export function scan(source: string): ScanResult {
   for (let i = start; i < lines.length; i++) {
     const line = lines[i]
 
+    // fences also live inside blockquotes (`> ```vue`): match them on the
+    // line without its `>` markers — inside a fence, only the fence's own
+    const maxQuoteDepth = fence ? fence.quoteDepth : Infinity
+    let content = line
+    let quoteDepth = 0
+    for (let marker = content.match(RE_QUOTE_MARKER); marker && quoteDepth < maxQuoteDepth; marker = content.match(RE_QUOTE_MARKER)) {
+      content = content.slice(marker[0].length)
+      quoteDepth++
+    }
+
+    // a fence inside a blockquote ends with the blockquote
+    if (fence && quoteDepth < fence.quoteDepth)
+      fence = null
+
     if (fence) {
-      const close = line.match(RE_FENCE_MARKER)
+      const close = content.match(RE_FENCE_MARKER)
       if (close
         && close[1][0] === fence.char
         && close[1].length >= fence.length
-        && /^[ \t]*$/.test(line.slice(close[0].length))) {
+        && /^[ \t]*$/.test(content.slice(close[0].length))) {
         fence = null
       }
       continue
     }
 
-    const fenceOpen = line.match(RE_FENCE_MARKER)
+    const fenceOpen = content.match(RE_FENCE_MARKER)
     if (fenceOpen) {
-      const info = line.slice(fenceOpen[0].length)
+      const info = content.slice(fenceOpen[0].length)
       // a backtick fence cannot carry backticks in its info string
       if (!(fenceOpen[1][0] === '`' && info.includes('`'))) {
-        fence = { char: fenceOpen[1][0], length: fenceOpen[1].length }
+        fence = { char: fenceOpen[1][0], length: fenceOpen[1].length, quoteDepth }
         continue
       }
     }
