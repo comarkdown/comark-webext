@@ -10,7 +10,7 @@
  *   remain literal text — a later DOM pass wraps them in highlighted code
  */
 
-import type { ElementNode, NodeHandler } from 'comark'
+import type { ComarkPlugin, ElementNode, NodeHandler } from 'comark'
 import { createHtmlRenderer } from '@comark/html'
 import alert from '@comark/html/plugins/alert'
 import components from '@comark/html/plugins/components'
@@ -173,6 +173,22 @@ const spanHandler: NodeHandler = async (node) => {
   return escapeHtml(`[${body}]`)
 }
 
+/**
+ * markdown-exit emits a `reference` token per link reference definition
+ * (`[label]: https://...`). comark has no case for it and turns each one into
+ * an empty `component` node, which would render as a bogus `::component`
+ * block. The definitions render nothing in Markdown, and references resolve
+ * through `env.references`, so the tokens are dropped after block parsing.
+ */
+const dropReferenceTokens: ComarkPlugin = {
+  name: 'drop-reference-tokens',
+  markdownItPlugins: [(md) => {
+    md.core.ruler.after('block', 'drop-reference-tokens', (state: { tokens: { type: string }[] }) => {
+      state.tokens = state.tokens.filter(token => token.type !== 'reference')
+    })
+  }],
+}
+
 const renderComarkHtmlImpl = createHtmlRenderer({
   // all defaults except `attributes`: `{...}` stays literal, to be displayed
   registerDefaultPlugins: false,
@@ -184,6 +200,7 @@ const renderComarkHtmlImpl = createHtmlRenderer({
     alert(),
     taskList(),
     components(),
+    dropReferenceTokens,
     security({ blockedTags: BLOCKED_TAGS }),
     // host-matched palette as a light/dark pair: tokens carry the light
     // color inline plus a `--shiki-dark` var that style.css switches on
