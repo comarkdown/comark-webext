@@ -37,15 +37,35 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
-      - name: Configure git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
       - name: Bump version
-        run: pnpm bumpp ${{ inputs.bump }} --yes
+        run: pnpm bumpp ${{ inputs.bump }} --yes --no-commit --no-tag --no-push
 
-      # tags pushed with GITHUB_TOKEN do not trigger `push` workflows,
+      # main requires signed commits: a commit created through the GraphQL API
+      # with GITHUB_TOKEN is signed by GitHub, a `git push` from the runner is not
+      - name: Commit and tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          jq -n \
+            --arg repo "$GITHUB_REPOSITORY" \
+            --arg branch "$GITHUB_REF_NAME" \
+            --arg head "$GITHUB_SHA" \
+            --arg message "chore: release v${VERSION}" \
+            --arg contents "$(base64 -w0 package.json)" \
+            '{
+              query: "mutation($input: CreateCommitOnBranchInput!) { createCommitOnBranch(input: $input) { commit { oid } } }",
+              variables: { input: {
+                branch: { repositoryNameWithOwner: $repo, branchName: $branch },
+                expectedHeadOid: $head,
+                message: { headline: $message },
+                fileChanges: { additions: [{ path: "package.json", contents: $contents }] }
+              } }
+            }' > commit.json
+          OID=$(gh api graphql --input commit.json -q .data.createCommitOnBranch.commit.oid)
+          gh api "repos/${GITHUB_REPOSITORY}/git/refs" -f ref="refs/tags/v${VERSION}" -f sha="$OID" > /dev/null
+
+      # tags created with GITHUB_TOKEN do not trigger `push` workflows,
       # so the Publish workflow is dispatched explicitly on the new tag
       - name: Dispatch publish
         env:
