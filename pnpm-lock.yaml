@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  comark: https://pkg.pr.new/comark@3fb5da8
-
 importers:
 
   .:
@@ -15,8 +12,8 @@ importers:
         specifier: ^2.27.0
         version: 2.27.0(@typescript-eslint/utils@8.2.0(eslint@9.9.0(jiti@2.7.0))(typescript@5.5.4))(@vue/compiler-sfc@3.4.38)(eslint@9.9.0(jiti@2.7.0))(typescript@5.5.4)(vitest@2.0.5(@types/node@22.5.0)(jsdom@24.1.1))
       '@comark/html':
-        specifier: https://pkg.pr.new/@comark/html@3fb5da8
-        version: https://pkg.pr.new/@comark/html@3fb5da8(rangi@2.2.0)
+        specifier: ^0.8.1
+        version: 0.8.1(rangi@2.2.0)
       '@ffflorian/jszip-cli':
         specifier: ^3.8.5
         version: 3.8.5(typescript@5.5.4)
@@ -60,8 +57,8 @@ importers:
         specifier: ^3.6.0
         version: 3.6.0
       comark:
-        specifier: https://pkg.pr.new/comark@3fb5da8
-        version: https://pkg.pr.new/comark@3fb5da8(rangi@2.2.0)
+        specifier: ^0.8.1
+        version: 0.8.1(rangi@2.2.0)
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -341,13 +338,12 @@ packages:
     bundledDependencies:
       - is-unicode-supported
 
-  '@comark/html@https://pkg.pr.new/@comark/html@3fb5da8':
-    resolution: {tarball: https://pkg.pr.new/@comark/html@3fb5da8}
-    version: 0.6.2
+  '@comark/html@0.8.1':
+    resolution: {integrity: sha512-0lgJEnx+lnWmQszLkkGosG/AoJMZmWTRG/kUTwpCBxVxin3yIbjLf+2TA1aR/4XNvnyjMjcaFPR8iKh4OHh4AQ==}
     peerDependencies:
-      beautiful-mermaid: '>=1.0'
-      katex: '>=0.16'
-      shiki: ^4.3.1
+      beautiful-mermaid: '>=1.1.3'
+      katex: '>=0.18.7'
+      shiki: ^4.4.3
     peerDependenciesMeta:
       beautiful-mermaid:
         optional: true
@@ -1349,6 +1345,9 @@ packages:
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
+  argparse@3.0.4:
+    resolution: {integrity: sha512-fwWK3Zq22l4XJJjx5mcBHGikIk+hJqO+32dPm0Jur7+rtG5x1scOjSfdT9ZKeWHPpsya/l0HHK4tDImBkTrtvA==}
+
   args-tokenizer@0.3.0:
     resolution: {integrity: sha512-xXAd7G2Mll5W8uo37GETpQ2VrE84M181Z7ugHFGQnJZ50M2mbOv0osSZ9VsSgPfJQ+LVG0prSi0th+ELMsno7Q==}
 
@@ -1617,14 +1616,13 @@ packages:
     resolution: {integrity: sha512-lomjuFZKfM6MSAnV9aCZC9sc0qGbmZdfygNv+nCpqVkSKdCxCklLtd16O0EILGkImHw9ZpHkAnHaB+8Zxq5W6Q==}
     engines: {node: '>=8.0.0'}
 
-  comark@https://pkg.pr.new/comark@3fb5da8:
-    resolution: {tarball: https://pkg.pr.new/comark@3fb5da8}
-    version: 0.6.2
+  comark@0.8.1:
+    resolution: {integrity: sha512-oz2Nrt3o/e5SRYVgd3PlBwDUp5P4PWYZbVggORI02rLF63WEjHYkPJkxZh2Hwfpl0J4jDLspe6aeUraNplAsAw==}
     peerDependencies:
       beautiful-mermaid: ^1.1.3
-      katex: ^0.17.0
+      katex: ^0.18.7
       rangi: ^2.2.0
-      shiki: ^4.3.1
+      shiki: ^4.4.3
     peerDependenciesMeta:
       beautiful-mermaid:
         optional: true
@@ -1887,31 +1885,15 @@ packages:
   dom-serializer@2.0.0:
     resolution: {integrity: sha512-wIkAryiqt/nV5EQKqQpo3SToSOV9J0DnbJqwK7Wv/Trc92zIAYZ4FlMu+JPFW1DfGFt81ZTCGgDEabffXeLyJg==}
 
-  dom-serializer@3.1.1:
-    resolution: {integrity: sha512-4MEa38/QexBob6gFNwu+EGdWvhJ1OKuNwdYY3Y3NyeWDQfnGeDYQUDfIRzWu5B5gsv03so2Uxd28YC6zrsx3Lw==}
-    engines: {node: '>=20.19.0'}
-
   domelementtype@2.3.0:
     resolution: {integrity: sha512-OLETBj6w0OsagBwdXnPdN0cnMfF9opN69co+7ZrbfPGrdpPVNBUj02spi6B1N7wChLQiPn4CSH/zJvXw56gmHw==}
-
-  domelementtype@3.0.0:
-    resolution: {integrity: sha512-umCQid3jKbDmVjx8jGaW7uUykm4DEUeyV21hPxNMo2nV955DhUThwqyOIDtreepP31hl84X7G5U9ZfsWvIB3Pg==}
-    engines: {node: '>=20.19.0'}
 
   domhandler@5.0.3:
     resolution: {integrity: sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==}
     engines: {node: '>= 4'}
 
-  domhandler@6.0.1:
-    resolution: {integrity: sha512-gYzvtM72ZtxQO0T048kd6HWSbbGCNOUwcnfQ01cqIJ4X2IYKFFHZ5mKvrQETcFXxsRObZulDaKmy//R7TPtsBg==}
-    engines: {node: '>=20.19.0'}
-
   domutils@3.1.0:
     resolution: {integrity: sha512-H78uMmQtI2AhgDJjWeQmHwJJ2bLPD3GMmO7Zja/ZZh84wkm+4ut+IUnUdRa8uCGX88DiVx1j6FRe1XfxEgjEZA==}
-
-  domutils@4.0.2:
-    resolution: {integrity: sha512-qI4JLRKnSzqFqr7hAlS5xQDusBCjKSEG4t4+7aNrIQMHBcsC2TGEhuyABJdYkgSewL57PNLYEiibY2iPKhKpaA==}
-    engines: {node: '>=20.19.0'}
 
   dot-prop@6.0.1:
     resolution: {integrity: sha512-tE7ztYzXHIeyvc7N+hR3oi7FIbf/NIjVP9hmAt3yMXzrQ072/fpjGLx2GxNxGxUl5V73MEqYzioOMoVhGMJ5cA==}
@@ -1959,8 +1941,8 @@ packages:
     resolution: {integrity: sha512-TWrgLOFUQTH994YUyl1yT4uyavY5nNB5muff+RtWaqNVCAK408b5ZnnbNAUEWLTCpum9w6arT70i1XdQ4UeOPA==}
     engines: {node: '>=0.12'}
 
-  entities@8.0.0:
-    resolution: {integrity: sha512-zwfzJecQ/Uej6tusMqwAqU/6KL2XaB2VZ2Jg54Je6ahNBGNH6Ek6g3jjNCF0fG9EWQKGZNddNjU5F1ZQn/sBnA==}
+  entities@8.1.0:
+    resolution: {integrity: sha512-kxL7msIffSuh9aaFAMD7rxAIuTRMAHMeBtgHW2yUdWw732ZNh4MehkF2gdjvtdmikkaIP9bFDDJOPlsvm7avrA==}
     engines: {node: '>=20.19.0'}
 
   env-paths@2.2.1:
@@ -2596,10 +2578,6 @@ packages:
     resolution: {integrity: sha512-Y22oTqIU4uuPgEemfz7NDJz6OeKf12Lsu+QC+s3BVpda64lTiMYCyGwg5ki4vFxkMwQdeZDl2adZoqUgdFuTgQ==}
     engines: {node: '>=18'}
 
-  htmlparser2@12.0.0:
-    resolution: {integrity: sha512-Tz7u1i95/g2x2jz81+x0FBVhBhY5aRTvD3tXXdFaljuNdzDLJ8UGNRrTcj2cgQvAg3iW/h77Fz15nLW0L0CrZw==}
-    engines: {node: '>=20.19.0'}
-
   htmlparser2@8.0.2:
     resolution: {integrity: sha512-GYdjWKDkbRLkZ5geuHs5NY1puJ+PXwP7+fHPRz06Eirsb9ugf6d8kkXav6ADhcODhFFPMIXyxkxSuMf3D6NCFA==}
 
@@ -2926,8 +2904,8 @@ packages:
     resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
     hasBin: true
 
-  js-yaml@5.2.3:
-    resolution: {integrity: sha512-n+mUVyUX5bVv7G/G2zyIHOhdxfuU1dY2NOFzTQUWiMUbFss8b57NFlgCCaggU78wSw5KVS9cllzeLyzyR+n5nw==}
+  js-yaml@5.5.0:
+    resolution: {integrity: sha512-paNr4LFIFPjeeSmwNYdrb8FafLLG/Cr2Af3GjbsHJ5CxIjH4r0c2emlmRdAtpPAieP1gRVzk6buBbVP5gBMGAg==}
     hasBin: true
 
   jsdoc-type-pratt-parser@4.0.0:
@@ -3130,8 +3108,8 @@ packages:
     resolution: {integrity: sha512-bJzx6nMoP6PDLPBFmg7+xRKeFZvFboMrGlxmNj9ClvX53KrmvM5bXFXEWjbz4cz1AFn+jWJ9z/DJSz7hrs0w3w==}
     engines: {node: '>=6'}
 
-  markdown-exit@1.1.0-beta.2:
-    resolution: {integrity: sha512-8CzMGVlFZ4DEfnc8KU+4ycUW2SIOuiXqCHD7z51ecVEi/weyc0f2ylQbCm4KoKuVlTZSuMUMnWT0hTyquZ7anQ==}
+  markdown-exit@1.3.0:
+    resolution: {integrity: sha512-bsqlcm3Hk1ukcG1Al83pp3JjVobu4w1mpZz47OzLw8bCY8XchkCX+PXC32l2TH4nZ7p5WFg2NwpnLDXkY1X7Yw==}
 
   marky@1.2.5:
     resolution: {integrity: sha512-q9JtQJKjpsVxCRVgQ+WapguSbKC3SQ5HEzFGPAJMStgh3QjCawp00UKv3MTTAArTmGmmPUvllHZoNbZ3gs0I+Q==}
@@ -4999,9 +4977,9 @@ snapshots:
       picocolors: 1.0.1
       sisteransi: 1.0.5
 
-  '@comark/html@https://pkg.pr.new/@comark/html@3fb5da8(rangi@2.2.0)':
+  '@comark/html@0.8.1(rangi@2.2.0)':
     dependencies:
-      comark: https://pkg.pr.new/comark@3fb5da8(rangi@2.2.0)
+      comark: 0.8.1(rangi@2.2.0)
     transitivePeerDependencies:
       - rangi
 
@@ -6068,6 +6046,8 @@ snapshots:
 
   argparse@2.0.1: {}
 
+  argparse@3.0.4: {}
+
   args-tokenizer@0.3.0: {}
 
   array-buffer-byte-length@1.0.1:
@@ -6360,12 +6340,11 @@ snapshots:
       strip-ansi: 6.0.1
       wcwidth: 1.0.1
 
-  comark@https://pkg.pr.new/comark@3fb5da8(rangi@2.2.0):
+  comark@0.8.1(rangi@2.2.0):
     dependencies:
-      entities: 8.0.0
-      htmlparser2: 12.0.0
-      js-yaml: 5.2.3
-      markdown-exit: 1.1.0-beta.2
+      entities: 8.1.0
+      js-yaml: 5.5.0
+      markdown-exit: 1.3.0
     optionalDependencies:
       rangi: 2.2.0
 
@@ -6609,35 +6588,17 @@ snapshots:
       domhandler: 5.0.3
       entities: 4.5.0
 
-  dom-serializer@3.1.1:
-    dependencies:
-      domelementtype: 3.0.0
-      domhandler: 6.0.1
-      entities: 8.0.0
-
   domelementtype@2.3.0: {}
-
-  domelementtype@3.0.0: {}
 
   domhandler@5.0.3:
     dependencies:
       domelementtype: 2.3.0
-
-  domhandler@6.0.1:
-    dependencies:
-      domelementtype: 3.0.0
 
   domutils@3.1.0:
     dependencies:
       dom-serializer: 2.0.0
       domelementtype: 2.3.0
       domhandler: 5.0.3
-
-  domutils@4.0.2:
-    dependencies:
-      dom-serializer: 3.1.1
-      domelementtype: 3.0.0
-      domhandler: 6.0.1
 
   dot-prop@6.0.1:
     dependencies:
@@ -6680,7 +6641,7 @@ snapshots:
 
   entities@7.0.1: {}
 
-  entities@8.0.0: {}
+  entities@8.1.0: {}
 
   env-paths@2.2.1: {}
 
@@ -7570,13 +7531,6 @@ snapshots:
     dependencies:
       whatwg-encoding: 3.1.1
 
-  htmlparser2@12.0.0:
-    dependencies:
-      domelementtype: 3.0.0
-      domhandler: 6.0.1
-      domutils: 4.0.2
-      entities: 8.0.0
-
   htmlparser2@8.0.2:
     dependencies:
       domelementtype: 2.3.0
@@ -7861,9 +7815,9 @@ snapshots:
     dependencies:
       argparse: 2.0.1
 
-  js-yaml@5.2.3:
+  js-yaml@5.5.0:
     dependencies:
-      argparse: 2.0.1
+      argparse: 3.0.4
 
   jsdoc-type-pratt-parser@4.0.0: {}
 
@@ -8085,7 +8039,7 @@ snapshots:
     dependencies:
       p-defer: 1.0.0
 
-  markdown-exit@1.1.0-beta.2:
+  markdown-exit@1.3.0:
     dependencies:
       '@types/linkify-it': 5.0.0
       '@types/mdurl': 2.0.0
