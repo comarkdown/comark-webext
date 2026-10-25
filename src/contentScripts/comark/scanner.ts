@@ -4,7 +4,7 @@
  * Finds the comark-specific constructs in a raw markdown source: block
  * components, inline components, spans and attribute groups. The regex
  * building blocks mirror the comark rangi grammar
- * (`comark/plugins/rangi/language`).
+ * (`comark/plugins/rangi/language-comark`).
  *
  * The scanner works on the raw source because GitHub's rendered DOM is lossy:
  * the markdown inside a component body is already converted to HTML there.
@@ -22,7 +22,7 @@ const SLOT = String.raw`\[[^\]]*\]`
 const RE_BLOCK_OPEN = new RegExp(`^\\s*(:{2,})(${NAME})`, 'i')
 const RE_BLOCK_CLOSE = /^\s*:{2,}\s*$/
 const RE_FENCE_MARKER = /^ {0,3}(`{3,}|~{3,})/
-const RE_QUOTE_MARKER = /^ {0,3}> ?/
+const RE_QUOTE_MARKER = /^ {0,3}>[ \t]?/
 const RE_FRONTMATTER_DELIMITER = /^---\s*$/
 
 const RE_INLINE_COMPONENT = new RegExp(

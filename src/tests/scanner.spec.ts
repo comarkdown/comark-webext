@@ -31,7 +31,7 @@ describe('scan: block components', () => {
   })
 
   it('ignores fenced code blocks inside blockquotes', () => {
-    const source = '> ```vue\n> <Icon :name="icon" />\n> ```\n\n> ```\nopen fence ends with the quote\n\n:badge[ok]\n\n```\n> ```\n:nope\n```\n'
+    const source = '> ```vue\n> <Icon :name="icon" />\n> ```\n\n>\t```vue\n>\t<Icon :size="24" />\n>\t```\n\n> ```\nopen fence ends with the quote\n\n:badge[ok]\n\n```\n> ```\n:nope\n```\n'
     const { inline } = scan(source)
     expect(inline.map(fragment => fragment.text)).toEqual([':badge[ok]'])
   })
